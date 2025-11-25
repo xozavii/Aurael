@@ -1,3 +1,4 @@
+'use client';
 import LoginForm from '@/components/auth/login-form';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -31,10 +32,8 @@ export default function LoginPage() {
       <Card className="w-full max-w-md bg-card/60 backdrop-blur-lg border-white/20 z-10">
         <CardHeader className="text-center">
           <CardTitle className="font-headline text-6xl text-primary">Aurael</CardTitle>
-          <CardDescription className="text-foreground/80">
-            Welcome to your personal space for reflection and growth.
-            <br />
-            Let's get to know you. ✨
+          <CardDescription className="text-foreground/80 mt-2">
+            the wave of aura ✨
           </CardDescription>
         </CardHeader>
         <CardContent>

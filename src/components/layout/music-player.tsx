@@ -10,9 +10,9 @@ export default function MusicPlayer() {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-        // Fallback ambient music. User should replace with Spotify track or their own.
+        // Fallback ambient music. User can replace with Spotify track or their own.
         // For example: '/ambient-music.mp3'
-        const audio = new Audio('https://cdn.pixabay.com/download/audio/2022/11/22/audio_34b9a6b6ce.mp3'); 
+        const audio = new Audio('https://cdn.pixabay.com/audio/2022/02/07/audio_b28a2a8930.mp3'); 
         audio.loop = true;
         audio.volume = 0.3;
         audioRef.current = audio;
