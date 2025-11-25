@@ -12,8 +12,8 @@ const FloatingHearts = () => {
             className="floating-heart"
             style={{
               left: `${Math.random() * 100}vw`,
-              animationDuration: `${Math.random() * 5 + 5}s`, // 5s to 10s
-              animationDelay: `${Math.random() * 5}s`,
+              animationDuration: `${Math.random() * 10 + 10}s`, // 10s to 20s
+              animationDelay: `${Math.random() * 10}s`,
               fontSize: `${Math.random() * 1.5 + 0.5}rem`, // 0.5rem to 2rem
             }}
           >
