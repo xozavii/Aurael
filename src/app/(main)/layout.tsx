@@ -9,7 +9,6 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       <AppSidebar />
       <SidebarInset>
         <div className="flex flex-col min-h-screen relative">
-          <div className="heart-glow"></div>
           <MobileHeader />
           <main className="flex-1 p-4 sm:p-6 lg:p-8">{children}</main>
         </div>

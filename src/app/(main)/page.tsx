@@ -37,7 +37,7 @@ export default function ChatPage() {
   return (
      <div className="h-full flex flex-col items-center justify-center gap-8">
         <div className="text-center">
-            <h1 className="text-5xl font-headline text-primary-foreground">Welcome back, {user.name.split(' ')[0]}!</h1>
+            <h1 className="text-5xl font-headline text-primary">Welcome back, {user.name.split(' ')[0]}!</h1>
             <p className="text-foreground/80 mt-2 text-lg">What would you like to do today? 💖</p>
         </div>
       <div className="w-full max-w-4xl">
