@@ -1,13 +1,33 @@
 import LoginForm from '@/components/auth/login-form';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Heart } from 'lucide-react';
+
+const FloatingHearts = () => {
+    const hearts = Array.from({ length: 15 });
+  
+    return (
+      <div className="floating-hearts-container">
+        {hearts.map((_, i) => (
+          <div
+            key={i}
+            className="floating-heart"
+            style={{
+              left: `${Math.random() * 100}vw`,
+              animationDuration: `${Math.random() * 5 + 5}s`, // 5s to 10s
+              animationDelay: `${Math.random() * 5}s`,
+              fontSize: `${Math.random() * 1.5 + 0.5}rem`, // 0.5rem to 2rem
+            }}
+          >
+            &#x2764; {/* HTML heart entity */}
+          </div>
+        ))}
+      </div>
+    );
+  };
 
 export default function LoginPage() {
   return (
     <div className="relative flex min-h-screen items-center justify-center p-4 overflow-hidden">
-       <Heart 
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200vw] h-[200vh] text-primary opacity-20 blur-3xl animate-heartbeat"
-      />
+       <FloatingHearts />
       <Card className="w-full max-w-md bg-card/60 backdrop-blur-lg border-white/20 z-10">
         <CardHeader className="text-center">
           <CardTitle className="font-headline text-6xl text-primary">Aurael</CardTitle>

@@ -137,3 +137,36 @@
   from { transform: translate(0, 0) rotate(0deg); }
   to { transform: translate(60px, -90px) rotate(45deg); }
 }
+
+/* Floating hearts animation */
+@keyframes float-heart {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100vh) scale(0.5);
+    opacity: 0;
+  }
+}
+
+.floating-hearts-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.floating-heart {
+  position: absolute;
+  bottom: -50px;
+  color: hsl(var(--primary));
+  animation-name: float-heart;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  opacity: 0;
+  filter: drop-shadow(0 0 5px hsl(var(--primary))) blur(1px);
+}
