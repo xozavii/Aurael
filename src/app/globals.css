@@ -137,11 +137,3 @@
   from { transform: translate(0, 0) rotate(0deg); }
   to { transform: translate(60px, -90px) rotate(45deg); }
 }
-
-@keyframes heartbeat {
-  0% { transform: scale(1); opacity: 1; }
-  25% { transform: scale(1.25); opacity: 0.8; }
-  50% { transform: scale(1); opacity: 1; }
-  75% { transform: scale(1.25); opacity: 0.8; }
-  100% { transform: scale(1); opacity: 1; }
-}
