@@ -11,7 +11,7 @@ export default {
     extend: {
       fontFamily: {
         body: ['Montserrat', 'sans-serif'],
-        headline: ['"Abril Fatface"', 'cursive'],
+        headline: ['"Great Vibes"', 'cursive'],
         code: ['monospace'],
       },
       colors: {
