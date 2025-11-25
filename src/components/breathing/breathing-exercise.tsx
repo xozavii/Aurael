@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Play, Pause, RotateCcw } from 'lucide-react';
-import { Heart } from 'lucide-react';
 
 const breathingCycle = [
   { text: 'Breathe In', duration: 4000 },
@@ -72,10 +71,8 @@ export default function BreathingExercise() {
         className="relative w-48 h-48 flex items-center justify-center transition-transform duration-1000"
         style={animationStyle}
       >
-        <Heart 
-            className="w-full h-full text-primary blur-xl"
-            fill="currentColor"
-            strokeWidth={1}
+        <div 
+            className="w-full h-full rounded-full bg-primary blur-xl"
             style={{
                 filter: 'drop-shadow(0 0 15px hsl(var(--primary)))'
             }}
