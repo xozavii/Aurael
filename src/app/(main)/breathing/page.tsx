@@ -1,6 +1,6 @@
 import BreathingExercise from "@/components/breathing/breathing-exercise";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Wind } from "lucide-react";
+import { Feather } from "lucide-react";
 
 export default function BreathingPage() {
     return (
@@ -8,7 +8,7 @@ export default function BreathingPage() {
             <Card className="w-full max-w-md bg-card/60 backdrop-blur-lg border-white/20">
                 <CardHeader className="text-center">
                     <div className="mx-auto bg-primary/20 p-3 rounded-full w-fit">
-                        <Wind className="w-8 h-8 text-primary" />
+                        <Feather className="w-8 h-8 text-primary" />
                     </div>
                     <CardTitle className="font-headline text-3xl mt-4">
                         Mindful Breathing 🧘
