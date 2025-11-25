@@ -73,9 +73,9 @@ export default function BreathingExercise() {
         style={animationStyle}
       >
         <Heart 
-            className="w-full h-full text-primary" 
+            className="w-full h-full text-primary blur-xl"
             style={{
-                filter: 'drop-shadow(0 0 15px hsl(var(--primary))) drop-shadow(0 0 45px hsl(var(--primary) / 0.6))'
+                filter: 'drop-shadow(0 0 15px hsl(var(--primary)))'
             }}
         />
         <p className="absolute text-2xl font-semibold z-10 text-primary-foreground">{breathingCycle[phase].text}</p>
