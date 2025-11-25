@@ -6,7 +6,7 @@ import ChatInterface from '@/components/chatbot/chat-interface';
 import { useRouter } from 'next/navigation';
 
 export default function ChatPage() {
-  const [user, setUser] = useState<{name: string, dob: string} | null>(null);
+  const [user, setUser] = useState<{name: string, email: string, dob: string} | null>(null);
   const router = useRouter();
 
   useEffect(() => {

@@ -14,27 +14,28 @@ import { cn } from '@/lib/utils';
 
 export default function LoginForm() {
   const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [dob, setDob] = useState<Date | undefined>();
   const router = useRouter();
   const { toast } = useToast();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !dob) {
+    if (!name.trim() || !dob || !email.trim()) {
       toast({
         title: 'Missing Information',
-        description: 'Please enter your name and date of birth.',
+        description: 'Please fill out all fields.',
         variant: 'destructive',
       });
       return;
     }
     
     // Store user info in local storage
-    const user = { name, dob: dob.toISOString() };
+    const user = { name, email, dob: dob.toISOString() };
     localStorage.setItem('aurael-user', JSON.stringify(user));
     
     toast({
-      title: 'Welcome!',
+      title: 'Welcome! 👋',
       description: `Nice to meet you, ${name}!`,
     });
     
@@ -44,7 +45,7 @@ export default function LoginForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-2">
-        <Label htmlFor="name">What should I call you?</Label>
+        <Label htmlFor="name">What should I call you? 🙋‍♀️</Label>
         <Input
           id="name"
           type="text"
@@ -56,7 +57,19 @@ export default function LoginForm() {
         />
       </div>
       <div className="space-y-2">
-        <Label htmlFor="dob">When were you born?</Label>
+        <Label htmlFor="email">And your email? 📧</Label>
+        <Input
+          id="email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="your.email@example.com"
+          className="bg-background/80"
+          required
+        />
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="dob">When were you born? 🎂</Label>
         <Popover>
           <PopoverTrigger asChild>
             <Button
@@ -84,7 +97,7 @@ export default function LoginForm() {
         </Popover>
       </div>
       <Button type="submit" className="w-full text-lg py-6">
-        Let's Begin
+        Let's Begin ✨
       </Button>
     </form>
   );

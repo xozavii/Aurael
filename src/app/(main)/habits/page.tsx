@@ -9,10 +9,10 @@ export default function HabitsPage() {
                 <CardHeader>
                     <CardTitle className="font-headline text-3xl flex items-center gap-2">
                         <ClipboardCheck className="w-8 h-8 text-primary" />
-                        Habit Tracker
+                        Habit Tracker ✅
                     </CardTitle>
                     <CardDescription>
-                        Cultivate positive routines and watch your progress grow.
+                        Cultivate positive routines and watch your progress grow. 🌱
                     </CardDescription>
                 </CardHeader>
                 <CardContent>

@@ -11,7 +11,7 @@ export default {
     extend: {
       fontFamily: {
         body: ['Montserrat', 'sans-serif'],
-        headline: ['Great Vibes', 'cursive'],
+        headline: ['"Lilita One"', 'cursive'],
         code: ['monospace'],
       },
       colors: {

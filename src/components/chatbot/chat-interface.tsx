@@ -17,6 +17,7 @@ interface ChatInterfaceProps {
   user: {
     name: string;
     dob: string;
+    email: string;
   };
 }
 
@@ -25,7 +26,7 @@ export default function ChatInterface({ user }: ChatInterfaceProps) {
     {
       id: '1',
       role: 'system',
-      content: `Hey ${user.name}! What's on your mind today?`,
+      content: `Hey ${user.name}! What's on your mind today? ✨`,
     },
   ]);
   const [input, setInput] = useState('');

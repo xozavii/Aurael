@@ -9,7 +9,7 @@ export default function PlaylistsPage() {
                 <CardHeader>
                     <CardTitle className="font-headline text-3xl flex items-center gap-2">
                         <ListMusic className="w-8 h-8 text-primary" />
-                        Mood Playlists
+                        Mood Playlists 🎶
                     </CardTitle>
                     <CardDescription>
                         Tune into your mood. Curated playlists to match your feelings.

@@ -11,7 +11,7 @@ export default function BreathingPage() {
                         <Wind className="w-8 h-8 text-primary" />
                     </div>
                     <CardTitle className="font-headline text-3xl mt-4">
-                        Mindful Breathing
+                        Mindful Breathing 🧘
                     </CardTitle>
                     <CardDescription>
                         Follow the guide to calm your mind and body.

@@ -14,7 +14,7 @@ export default function LoginPage() {
           <CardDescription>
             Your personal AI companion for mental well-being.
             <br />
-            Let&apos;s get to know you.
+            Let's get to know you! 😊
           </CardDescription>
         </CardHeader>
         <CardContent>

@@ -9,7 +9,7 @@ export default function JournalPage() {
                 <CardHeader>
                     <CardTitle className="font-headline text-3xl flex items-center gap-2">
                         <BookHeart className="w-8 h-8 text-primary" />
-                        AI Journal
+                        AI Journal 📝
                     </CardTitle>
                     <CardDescription>
                         Write down your thoughts and let our AI help you reflect and find perspective.
