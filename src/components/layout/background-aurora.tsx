@@ -6,7 +6,6 @@ export default function BackgroundAurora() {
                 <div className="aurora aurora-2"></div>
                 <div className="aurora aurora-3"></div>
             </div>
-            <div className="heart-glow"></div>
         </div>
     )
 }
