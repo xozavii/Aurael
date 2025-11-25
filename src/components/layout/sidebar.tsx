@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { BotMessageSquare, BookHeart, ClipboardCheck, Wind, ListMusic, Sparkles } from 'lucide-react';
+import { BotMessageSquare, BookHeart, ClipboardCheck, Wind, ListMusic, Sparkles, LogOut } from 'lucide-react';
 import {
   Sidebar,
   SidebarHeader,
@@ -14,6 +14,8 @@ import {
 } from '@/components/ui/sidebar';
 import { cn } from '@/lib/utils';
 import { Separator } from '../ui/separator';
+import { Button } from '../ui/button';
+import { useRouter } from 'next/navigation';
 
 const navItems = [
   { href: '/', icon: BotMessageSquare, label: 'Chat' },
@@ -25,13 +27,19 @@ const navItems = [
 
 export default function AppSidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    localStorage.removeItem('aurael-user');
+    router.push('/login');
+  };
 
   return (
     <Sidebar className="border-r border-white/10 bg-card/30 backdrop-blur-xl" collapsible="icon">
         <SidebarHeader className="p-4">
             <Link href="/" className="flex items-center gap-2 group-data-[collapsible=icon]:justify-center">
                 <Sparkles className="w-8 h-8 text-primary group-data-[collapsible=icon]:w-6 group-data-[collapsible=icon]:h-6 transition-all" />
-                <h1 className="text-2xl font-headline font-bold text-primary-foreground group-data-[collapsible=icon]:hidden">Aurael</h1>
+                <h1 className="text-4xl font-headline font-bold text-primary-foreground group-data-[collapsible=icon]:hidden">Aurael</h1>
             </Link>
         </SidebarHeader>
         <SidebarContent className="p-2">
@@ -56,9 +64,13 @@ export default function AppSidebar() {
                 ))}
             </SidebarMenu>
         </SidebarContent>
-        <SidebarFooter className="p-4 group-data-[collapsible=icon]:hidden">
+        <SidebarFooter className="p-4">
             <Separator className="my-2 bg-white/10" />
-            <p className="text-xs text-muted-foreground">© 2024 Aurael</p>
+            <Button variant="ghost" className="w-full justify-start group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:w-12 group-data-[collapsible=icon]:h-12" onClick={handleLogout}>
+                <LogOut className="h-5 w-5" />
+                <span className="group-data-[collapsible=icon]:hidden">Logout</span>
+            </Button>
+            <p className="text-xs text-muted-foreground mt-4 group-data-[collapsible=icon]:hidden">© 2024 Aurael</p>
         </SidebarFooter>
     </Sidebar>
   );

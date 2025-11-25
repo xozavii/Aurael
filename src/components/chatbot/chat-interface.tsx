@@ -11,15 +11,21 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { useToast } from '@/hooks/use-toast';
+import { differenceInYears } from 'date-fns';
 
-export default function ChatInterface() {
-  const [age, setAge] = useState<number | null>(null);
-  const [tempAge, setTempAge] = useState('');
+interface ChatInterfaceProps {
+  user: {
+    name: string;
+    dob: string;
+  };
+}
+
+export default function ChatInterface({ user }: ChatInterfaceProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
       role: 'system',
-      content: 'Hey there! Before we start, how old are you? This helps me vibe with you better.',
+      content: `Hey ${user.name}! What's on your mind today?`,
     },
   ]);
   const [input, setInput] = useState('');
@@ -27,32 +33,13 @@ export default function ChatInterface() {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
+  const age = differenceInYears(new Date(), new Date(user.dob));
+
   useEffect(() => {
     if (scrollAreaRef.current) {
       scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
     }
   }, [messages]);
-
-  const handleAgeSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const ageNum = parseInt(tempAge, 10);
-    if (ageNum > 0 && ageNum < 120) {
-      setAge(ageNum);
-      setMessages([
-        {
-          id: '2',
-          role: 'system',
-          content: "Awesome, thanks! What's on your mind today?",
-        },
-      ]);
-    } else {
-      toast({
-        title: 'Invalid Age',
-        description: 'Please enter a valid age to continue.',
-        variant: 'destructive',
-      });
-    }
-  };
 
   const handleChatSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,7 +50,7 @@ export default function ChatInterface() {
     setInput('');
     setIsLoading(true);
 
-    const response = await getChatResponse([...messages, userMessage], age!);
+    const response = await getChatResponse([...messages, userMessage], age);
     
     if (response.error) {
       toast({
@@ -87,32 +74,6 @@ export default function ChatInterface() {
     }
     setIsLoading(false);
   };
-  
-  if (!age) {
-    return (
-      <Card className="max-w-md mx-auto bg-card/60 backdrop-blur-lg border-white/20">
-        <CardHeader>
-          <h2 className="text-xl font-headline text-center">Welcome to Aurael</h2>
-        </CardHeader>
-        <CardContent>
-          <p className="text-center text-muted-foreground mb-4">
-            Hey there! Before we start, how old are you? This helps me vibe with you better.
-          </p>
-          <form onSubmit={handleAgeSubmit} className="flex gap-2">
-            <Input
-              type="number"
-              value={tempAge}
-              onChange={(e) => setTempAge(e.target.value)}
-              placeholder="Enter your age"
-              className="bg-background/80"
-              required
-            />
-            <Button type="submit">Let's Go</Button>
-          </form>
-        </CardContent>
-      </Card>
-    );
-  }
 
   return (
     <Card className="h-full flex flex-col bg-card/60 backdrop-blur-lg border-white/20 max-h-[65vh]">
