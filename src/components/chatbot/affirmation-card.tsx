@@ -59,7 +59,7 @@ export default function AffirmationCard() {
             <span>Generating your personal affirmation...</span>
           </div>
         ) : (
-          <p className="text-xl font-medium text-center py-4 text-primary-foreground italic">
+          <p className="text-xl font-medium text-center py-4 text-foreground/80 italic">
             &ldquo;{affirmation}&rdquo;
           </p>
         )}

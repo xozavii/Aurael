@@ -6,10 +6,10 @@ import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
-      <div className="heart-glow"></div>
       <AppSidebar />
       <SidebarInset>
-        <div className="flex flex-col min-h-screen">
+        <div className="flex flex-col min-h-screen relative">
+          <div className="heart-glow"></div>
           <MobileHeader />
           <main className="flex-1 p-4 sm:p-6 lg:p-8">{children}</main>
         </div>
