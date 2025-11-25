@@ -11,7 +11,7 @@ export default {
     extend: {
       fontFamily: {
         body: ['Montserrat', 'sans-serif'],
-        headline: ['"Pinyon Script"', 'cursive'],
+        headline: ['"Abril Fatface"', 'cursive'],
         code: ['monospace'],
       },
       colors: {
