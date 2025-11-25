@@ -1,0 +1,65 @@
+'use client';
+
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { BotMessageSquare, BookHeart, ClipboardCheck, Wind, ListMusic, Sparkles } from 'lucide-react';
+import {
+  Sidebar,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+  SidebarContent,
+  SidebarFooter,
+} from '@/components/ui/sidebar';
+import { cn } from '@/lib/utils';
+import { Separator } from '../ui/separator';
+
+const navItems = [
+  { href: '/', icon: BotMessageSquare, label: 'Chat' },
+  { href: '/journal', icon: BookHeart, label: 'Journal' },
+  { href: '/habits', icon: ClipboardCheck, label: 'Habits' },
+  { href: '/breathing', icon: Wind, label: 'Breathing' },
+  { href: '/playlists', icon: ListMusic, label: 'Playlists' },
+];
+
+export default function AppSidebar() {
+  const pathname = usePathname();
+
+  return (
+    <Sidebar className="border-r border-white/10 bg-card/30 backdrop-blur-xl" collapsible="icon">
+        <SidebarHeader className="p-4">
+            <Link href="/" className="flex items-center gap-2 group-data-[collapsible=icon]:justify-center">
+                <Sparkles className="w-8 h-8 text-primary group-data-[collapsible=icon]:w-6 group-data-[collapsible=icon]:h-6 transition-all" />
+                <h1 className="text-2xl font-headline font-bold text-primary-foreground group-data-[collapsible=icon]:hidden">Aurael</h1>
+            </Link>
+        </SidebarHeader>
+        <SidebarContent className="p-2">
+            <SidebarMenu>
+                {navItems.map((item) => (
+                <SidebarMenuItem key={item.href}>
+                    <SidebarMenuButton
+                        asChild
+                        isActive={pathname === item.href}
+                        tooltip={{ children: item.label, className: 'bg-card/80 backdrop-blur-md' }}
+                        className={cn(
+                          "data-[active=true]:bg-primary/20 data-[active=true]:text-primary-foreground hover:bg-primary/10",
+                          "group-data-[collapsible=icon]:w-12 group-data-[collapsible=icon]:h-12"
+                        )}
+                    >
+                        <Link href={item.href}>
+                            <item.icon className="h-5 w-5" />
+                            <span className="group-data-[collapsible=icon]:hidden">{item.label}</span>
+                        </Link>
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
+                ))}
+            </SidebarMenu>
+        </SidebarContent>
+        <SidebarFooter className="p-4 group-data-[collapsible=icon]:hidden">
+            <Separator className="my-2 bg-white/10" />
+            <p className="text-xs text-muted-foreground">© 2024 Aurael</p>
+        </SidebarFooter>
+    </Sidebar>
+  );
+}
