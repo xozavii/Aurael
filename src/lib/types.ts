@@ -22,3 +22,9 @@ export type Message = {
     role: 'user' | 'model' | 'system';
     content: string;
 };
+
+export type JournalEntry = {
+    id: string;
+    date: string; // ISO string
+    content: string;
+};

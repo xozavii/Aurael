@@ -12,7 +12,7 @@ export default function JournalPage() {
                         AI Journal 📝
                     </CardTitle>
                     <CardDescription>
-                        Write down your thoughts and let our AI help you reflect and find perspective.
+                        Write down your thoughts and let our AI help you reflect and find perspective. You can save your entries to review them later.
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
