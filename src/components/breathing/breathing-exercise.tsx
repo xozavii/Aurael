@@ -74,7 +74,6 @@ export default function BreathingExercise() {
       >
         <Heart 
             className="w-full h-full text-primary" 
-            fill="currentColor"
             style={{
                 filter: 'drop-shadow(0 0 15px hsl(var(--primary))) drop-shadow(0 0 45px hsl(var(--primary) / 0.6))'
             }}
