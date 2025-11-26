@@ -70,6 +70,9 @@
     color: hsl(var(--primary));
     font-weight: bold;
   }
+  .day-completed {
+    position: relative;
+  }
 }
 
 .aurora-background {
@@ -218,3 +221,17 @@
         hsl(var(--muted)) 80%);
     background-size: 2000px 100%;
 }
+
+@keyframes heartbeat {
+  '0%' { transform: scale(1); opacity: '0.7'; }
+  '25%' { transform: scale(1.25); opacity: '0.5'; }
+  '50%' { transform: scale(1); opacity: '0.7'; }
+  '75%' { transform: scale(1.25); opacity: '0.5'; }
+  '100%' { transform: scale(1); opacity: '0.7'; }
+}
+
+.animate-heartbeat {
+    animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+    

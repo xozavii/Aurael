@@ -12,7 +12,7 @@ import { cn } from '@/lib/utils';
 import { HabitSkeleton } from './habit-skeleton';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../ui/alert-dialog';
 import { Calendar } from '../ui/calendar';
-import { DayContentProps } from 'react-day-picker';
+import { DayPicker, DayContent, DayContentProps } from 'react-day-picker';
 import { Confetti } from './confetti';
 
 const initialHabits: Habit[] = [
@@ -24,14 +24,14 @@ const initialHabits: Habit[] = [
 const FloatingHearts = () => {
     const hearts = Array.from({ length: 10 });
     return (
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-20">
         {hearts.map((_, i) => (
           <div
             key={i}
             className="floating-heart"
             style={{
               left: `${Math.random() * 100}%`,
-              animationDuration: `${Math.random() * 15 + 20}s`, // 20s to 35s
+              animationDuration: `${Math.random() * 15 + 25}s`,
               animationDelay: `${Math.random() * 5}s`,
               fontSize: `${Math.random() * 1 + 0.5}rem`,
             }}
@@ -193,14 +193,17 @@ export default function HabitTracker() {
                                         components={{
                                             Day: (props: DayContentProps) => {
                                                 const isCompleted = completedDates.some(d => isSameDay(d, props.date));
-                                                return (
-                                                  <div className="relative flex h-full w-full items-center justify-center">
-                                                    {isCompleted && <Heart className="absolute h-8 w-8 text-primary/30 fill-primary/20" />}
-                                                    <span className={cn("relative z-10", isCompleted && "font-bold text-primary-foreground")}>
-                                                      {props.date.getDate()}
-                                                    </span>
-                                                  </div>
-                                                );
+                                                if (isCompleted) {
+                                                    return (
+                                                      <div className="relative flex h-full w-full items-center justify-center">
+                                                        <Heart className="absolute h-8 w-8 text-primary/80 fill-primary/20" style={{ filter: 'drop-shadow(0 0 3px hsl(var(--primary)))' }} />
+                                                        <span className="relative z-10 font-bold text-primary-foreground">
+                                                          {props.date.getDate()}
+                                                        </span>
+                                                      </div>
+                                                    );
+                                                }
+                                                return <DayContent {...props} />;
                                             },
                                         }}
                                         className="p-4"
@@ -238,3 +241,5 @@ export default function HabitTracker() {
     </div>
   );
 }
+
+    
