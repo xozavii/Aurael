@@ -7,3 +7,4 @@ import '@/ai/flows/adapt-chatbot-speaking-style.ts';
 import '@/ai/flows/summarize-journal-entry.ts';
 import '@/ai/flows/reframe-journal-entry.ts';
 import '@/ai/flows/generate-avatar.ts';
+import '@/ai/flows/generate-guided-meditation.ts';

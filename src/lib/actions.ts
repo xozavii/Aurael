@@ -1,12 +1,11 @@
-// @ts-nocheck
 'use server';
 
-import { z } from 'zod';
 import { generateMoodBasedAffirmations } from '@/ai/flows/generate-mood-based-affirmations';
 import { adaptChatbotSpeakingStyle } from '@/ai/flows/adapt-chatbot-speaking-style';
 import { summarizeJournalEntry } from '@/ai/flows/summarize-journal-entry';
 import { reframeJournalEntry } from '@/ai/flows/reframe-journal-entry';
 import { generateAvatar as genAvatar } from '@/ai/flows/generate-avatar';
+import { generateGuidedMeditation as genGuidedMeditation } from '@/ai/flows/generate-guided-meditation';
 
 export async function getAffirmation(mood: string, chatHistory: string = '') {
     try {
@@ -72,5 +71,16 @@ export async function generateAvatar() {
     } catch (error) {
         console.error('Error generating avatar:', error);
         return { error: 'Could not generate avatar. Please try again later.' };
+    }
+}
+
+export async function getGuidedMeditation(prompt: string) {
+    if (!prompt) return { error: 'A prompt is required to generate a meditation.' };
+    try {
+        const result = await genGuidedMeditation(prompt);
+        return { audioUrl: result.audioUrl };
+    } catch (error) {
+        console.error('Error generating guided meditation:', error);
+        return { error: 'Could not generate meditation audio. Please try again later.' };
     }
 }
