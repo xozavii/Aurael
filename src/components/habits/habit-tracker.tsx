@@ -14,9 +14,9 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Confetti } from './confetti';
 
 const initialHabits: Habit[] = [
-  { id: '1', name: 'Meditate 5 mins', icon: Zap, frequency: 'daily', streak: 5, lastCompleted: '2024-05-20T10:00:00.000Z' },
-  { id: '2', name: 'Read 10 pages', icon: BookOpen, frequency: 'daily', streak: 12, lastCompleted: '2024-05-20T10:00:00.000Z' },
-  { id: '3', name: 'Morning Coffee', icon: Coffee, frequency: 'daily', streak: 2, lastCompleted: null },
+  { id: '1', name: 'Meditate 5 mins', icon: Zap, frequency: 'daily', streak: 5, lastCompleted: '2024-05-20T10:00:00.000Z', history: [] },
+  { id: '2', name: 'Read 10 pages', icon: BookOpen, frequency: 'daily', streak: 12, lastCompleted: '2024-05-20T10:00:00.000Z', history: [] },
+  { id: '3', name: 'Morning Coffee', icon: Coffee, frequency: 'daily', streak: 2, lastCompleted: null, history: [] },
 ];
 
 export default function HabitTracker() {
@@ -37,6 +37,7 @@ export default function HabitTracker() {
       frequency: 'daily',
       streak: 0,
       lastCompleted: null,
+      history: [],
     };
     setTimeout(() => {
         setHabits([...habits, newHabit]);
@@ -46,17 +47,32 @@ export default function HabitTracker() {
     }, 1000);
   };
 
-  const handleCompleteHabit = (id: string) => {
+  const handleToggleHabit = (id: string) => {
     setHabits(
       habits.map((habit) => {
-        if (habit.id === id && (habit.lastCompleted ? !isToday(new Date(habit.lastCompleted)) : true)) {
-          setConfettiTrigger(id);
-          setTimeout(() => setConfettiTrigger(null), 3000); // Reset confetti after animation
-          return {
-            ...habit,
-            streak: habit.streak + 1,
-            lastCompleted: new Date().toISOString(),
-          };
+        if (habit.id === id) {
+          const isCompletedToday = habit.lastCompleted ? isToday(new Date(habit.lastCompleted)) : false;
+          
+          if (isCompletedToday) {
+            // Undo completion
+            const previousCompletion = habit.history[habit.history.length - 1] || null;
+            return {
+              ...habit,
+              streak: habit.streak > 0 ? habit.streak - 1 : 0,
+              lastCompleted: previousCompletion,
+              history: habit.history.slice(0, -1),
+            };
+          } else {
+            // Complete habit
+            setConfettiTrigger(id);
+            setTimeout(() => setConfettiTrigger(null), 2000);
+            return {
+              ...habit,
+              streak: habit.streak + 1,
+              lastCompleted: new Date().toISOString(),
+              history: [...(habit.history || []), habit.lastCompleted].filter(Boolean),
+            };
+          }
         }
         return habit;
       })
@@ -102,9 +118,11 @@ export default function HabitTracker() {
             return (
                 <Card key={habit.id} className={cn("bg-background/50 transition-all with-left-shadow group relative overflow-hidden")}>
                     {isCompletedToday && (
-                        <Heart 
-                            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 text-primary opacity-20 transition-opacity duration-500 blur-md animate-heartbeat"
-                        />
+                        <>
+                            <Heart className="absolute top-4 right-4 w-6 h-6 text-primary opacity-50 blur-[1px] animate-pulse" />
+                            <Heart className="absolute bottom-10 left-10 w-4 h-4 text-primary opacity-40 blur-[1px] animate-pulse animation-delay-200" />
+                            <Heart className="absolute bottom-4 right-12 w-5 h-5 text-primary opacity-60 blur-[1px] animate-pulse animation-delay-400" />
+                        </>
                     )}
                   <CardContent className="p-4 flex items-center justify-between relative z-10">
                       <div className="flex items-center gap-4">
@@ -122,8 +140,7 @@ export default function HabitTracker() {
                           <Button
                             size="icon"
                             variant={isCompletedToday ? "secondary" : "outline"}
-                            onClick={() => handleCompleteHabit(habit.id)}
-                            disabled={isCompletedToday}
+                            onClick={() => handleToggleHabit(habit.id)}
                             className={cn("rounded-full w-12 h-12 shrink-0 z-10", isCompletedToday && "bg-primary/80 hover:bg-primary")}
                             aria-label={`Complete habit: ${habit.name}`}
                           >

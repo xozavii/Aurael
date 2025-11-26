@@ -7,6 +7,7 @@ export type Habit = {
     frequency: 'daily';
     streak: number;
     lastCompleted: string | null; // ISO string
+    history: (string | null)[];
 };
 
 export type Playlist = {
