@@ -100,10 +100,10 @@ export default function HabitTracker() {
             const isCompletedToday = habit.lastCompleted ? isToday(new Date(habit.lastCompleted)) : false;
             const Icon = habit.icon;
             return (
-                <Card key={habit.id} className={cn("bg-background/50 transition-all with-left-shadow group relative overflow-hidden", isCompletedToday && "border-primary/50")}>
+                <Card key={habit.id} className={cn("bg-background/50 transition-all with-left-shadow group relative overflow-hidden")}>
                     {isCompletedToday && (
                         <Heart 
-                            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 text-primary opacity-100 transition-opacity duration-500 blur-lg animate-heartbeat"
+                            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 text-primary opacity-20 transition-opacity duration-500 blur-md animate-heartbeat"
                         />
                     )}
                   <CardContent className="p-4 flex items-center justify-between relative z-10">
