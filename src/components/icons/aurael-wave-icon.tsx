@@ -12,25 +12,28 @@ export const AuraelWaveIcon = ({ className, ...props }: React.SVGProps<SVGSVGEle
         {...props}
     >
         <path d="M 5 50 
-           C 20 20, 40 10, 60 25 
-           C 70 35, 75 45, 70 55 
-           C 65 65, 50 70, 40 60
-           L 35 70
-           C 30 75, 20 80, 5 70"
-           strokeWidth="3"
+           C 15 20, 35 10, 50 25 
+           C 60 35, 65 45, 60 55 
+           C 55 65, 40 70, 25 60
+           L 15 70
+           C 10 75, 5 80, 0 70"
+           strokeWidth="4"
         />
 
-        <path d="M 45 30 
-           C 50 20, 55 20, 60 30 
-           C 65 40, 60 45, 55 40" 
-        strokeWidth="1.5"/>
+        <path d="M 40 35 
+           C 45 25, 50 25, 55 35 
+           C 60 45, 55 50, 50 45"
+           strokeWidth="2.5"
+        />
 
-        <path d="M 70 65 
-           C 75 55, 85 55, 90 65" 
-        strokeWidth="2"/>
+        <path d="M 65 65 
+           C 75 55, 85 55, 95 65"
+           strokeWidth="3"
+        />
         
-        <path d="M 10 75 
-           C 25 80, 40 75, 55 70" 
-        strokeWidth="1.5"/>
+        <path d="M 0 85 
+           C 30 90, 70 80, 100 85"
+           strokeWidth="2.5"
+        />
     </svg>
 );
