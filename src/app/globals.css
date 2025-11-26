@@ -31,24 +31,24 @@
     --radius: 0.8rem;
   }
   .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 5.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
+    --background: 350 30% 10%; /* Dark, soft maroon */
+    --foreground: 350 15% 85%; /* Soft beige/off-white */
+    --card: 350 25% 14%;
+    --card-foreground: 350 15% 85%;
+    --popover: 350 25% 10%;
+    --popover-foreground: 350 15% 85%;
     --primary: 345 80% 60%;
-    --primary-foreground: 345 96% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
+    --primary-foreground: 350 15% 95%;
+    --secondary: 350 20% 20%;
+    --secondary-foreground: 350 15% 90%;
+    --muted: 350 20% 22%;
+    --muted-foreground: 350 15% 65%;
+    --accent: 350 20% 25%;
+    --accent-foreground: 350 15% 95%;
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 350 20% 25%;
+    --input: 350 20% 22%;
     --ring: 345 80% 60%;
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
@@ -87,6 +87,10 @@
   height: 150vh;
   filter: blur(120px) saturate(150%);
   opacity: 0.5;
+  .dark & {
+    opacity: 0.3;
+    filter: blur(120px) saturate(100%);
+  }
 }
 
 .aurora {
@@ -186,6 +190,9 @@
         background: linear-gradient(to right, hsl(var(--primary) / 0.3), transparent);
         pointer-events: none;
         transition: opacity 0.3s ease-in-out;
+        .dark & {
+            background: linear-gradient(to right, hsl(var(--primary) / 0.2), transparent);
+        }
     }
 }
 

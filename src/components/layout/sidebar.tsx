@@ -16,6 +16,7 @@ import { cn } from '@/lib/utils';
 import { Separator } from '../ui/separator';
 import { Button } from '../ui/button';
 import { useRouter } from 'next/navigation';
+import { ThemeToggle } from '../theme-toggle';
 
 const navItems = [
   { href: '/', icon: LayoutDashboard, label: 'Dashboard' },
@@ -65,12 +66,15 @@ export default function AppSidebar() {
                 ))}
             </SidebarMenu>
         </SidebarContent>
-        <SidebarFooter className="p-4">
+        <SidebarFooter className="p-4 space-y-2">
+            <div className="flex items-center justify-between group-data-[collapsible=icon]:flex-col group-data-[collapsible=icon]:gap-2">
+                <ThemeToggle />
+                <Button variant="ghost" className="w-full justify-start group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:w-12 group-data-[collapsible=icon]:h-12" onClick={handleLogout}>
+                    <LogOut className="h-5 w-5" />
+                    <span className="group-data-[collapsible=icon]:hidden">Logout</span>
+                </Button>
+            </div>
             <Separator className="my-2 bg-white/10" />
-            <Button variant="ghost" className="w-full justify-start group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:w-12 group-data-[collapsible=icon]:h-12" onClick={handleLogout}>
-                <LogOut className="h-5 w-5" />
-                <span className="group-data-[collapsible=icon]:hidden">Logout</span>
-            </Button>
             <p className="text-xs text-muted-foreground mt-4 group-data-[collapsible=icon]:hidden">© 2024 Aurael</p>
         </SidebarFooter>
     </Sidebar>

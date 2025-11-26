@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import BackgroundAurora from '@/components/layout/background-aurora';
+import { ThemeProvider } from '@/components/theme-provider';
 
 export const metadata: Metadata = {
   title: 'Aurael',
@@ -28,9 +29,16 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased">
-        <BackgroundAurora />
-        <div className="relative z-10">{children}</div>
-        <Toaster />
+        <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+        >
+          <BackgroundAurora />
+          <div className="relative z-10">{children}</div>
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );

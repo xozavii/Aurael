@@ -9,7 +9,7 @@ import { ArrowUpRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { PlaylistSkeleton } from './playlist-skeleton';
 
-const mockPlaylists: Omit<Playlist, 'imageUrl' | 'imageHint'>[] = [
+const mockPlaylists: Omit<Playlist, 'imageUrl' | 'imageHint' | 'spotifyUrl'>[] = [
   { id: 'calm-playlist', title: 'Calm Reflections', description: 'Gentle soundscapes for peace and focus.' },
   { id: 'upbeat-playlist', title: 'Sunny Disposition', description: 'Feel-good tracks to lift your spirits.' },
   { id: 'focus-playlist', title: 'Deep Focus', description: 'Instrumental beats to help you concentrate.' },
@@ -23,7 +23,8 @@ const playlistsData: Playlist[] = mockPlaylists.map(p => {
     return {
         ...p,
         imageUrl: imageData?.imageUrl || 'https://picsum.photos/seed/default/600/600',
-        imageHint: imageData?.imageHint || 'music'
+        imageHint: imageData?.imageHint || 'music',
+        spotifyUrl: imageData?.spotifyUrl || 'https://open.spotify.com'
     }
 })
 
@@ -46,7 +47,7 @@ export default function PlaylistGrid() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {playlists.map((playlist) => (
-        <Link href="#" key={playlist.id} className="group block">
+        <Link href={playlist.spotifyUrl} key={playlist.id} className="group block" target="_blank" rel="noopener noreferrer">
           <Card className="overflow-hidden h-full bg-background/50 transition-all duration-300 group-hover:shadow-2xl group-hover:border-primary/50 group-hover:-translate-y-1 with-left-shadow">
             <div className="relative aspect-square">
               <Image

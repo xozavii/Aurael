@@ -15,6 +15,7 @@ export type Playlist = {
     description: string;
     imageUrl: string;
     imageHint: string;
+    spotifyUrl: string;
 };
 
 export type Message = {
