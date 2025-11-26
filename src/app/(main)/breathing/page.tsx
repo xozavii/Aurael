@@ -5,11 +5,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { getGuidedMeditation } from '@/lib/actions';
-import { Loader, Wand2, Sparkles, Wind, Bed, Star, Brain, Heart, BookOpen, Clock } from 'lucide-react';
+import { Loader, Wand2, Sparkles, Wind, Bed, Star, Brain, Heart, BookOpen, Clock, Waves } from 'lucide-react';
 import AudioPlayer from '@/components/meditation/audio-player';
 import { useToast } from '@/hooks/use-toast';
-import BreathingExercise from '@/components/breathing/breathing-exercise';
-import { LotusIcon } from '@/components/icons/lotus-icon';
 
 const meditationCategories = [
     { title: 'Stress Relief', duration: '5 min', icon: Wind, prompt: 'a 5 minute guided meditation for stress relief' },
@@ -82,6 +80,7 @@ export default function BreathingPage() {
 
     const handlePlayPrewritten = async (title: string, prompt: string) => {
         toast({ title: 'Loading meditation...', description: 'Please wait a moment.' });
+        setCurrentPlaying(null);
         const result = await getGuidedMeditation(prompt);
         if (result.audioUrl) {
             setCurrentPlaying({ title, audio: result.audioUrl });
@@ -102,29 +101,12 @@ export default function BreathingPage() {
         <div className="container mx-auto h-full flex flex-col items-center justify-center gap-8 relative overflow-hidden">
             <FloatingHearts />
             
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full max-w-6xl z-10">
-                <Card className="w-full bg-card/60 backdrop-blur-lg border-white/20 with-left-shadow">
-                    <CardHeader className="text-center items-center">
-                        <div className="mx-auto bg-primary/20 p-3 rounded-full w-fit">
-                            <LotusIcon className="w-8 h-8 text-primary" />
-                        </div>
-                        <CardTitle className="font-headline text-3xl mt-4">
-                            Guided Breathing
-                        </CardTitle>
-                        <CardDescription>
-                            Follow the guide to calm your mind and body.
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <BreathingExercise />
-                    </CardContent>
-                </Card>
-
+            <div className="w-full max-w-4xl z-10">
                 <div className="space-y-6">
                     <Card className="w-full bg-card/60 backdrop-blur-lg border-white/20 with-left-shadow">
                         <CardHeader>
                             <CardTitle className="font-headline text-3xl flex items-center gap-2">
-                                <Sparkles className="w-8 h-8 text-primary" />
+                                <Waves className="w-8 h-8 text-primary" />
                                 Guided Meditations
                             </CardTitle>
                             <CardDescription>
@@ -139,7 +121,7 @@ export default function BreathingPage() {
                         </CardContent>
                     </Card>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         {meditationCategories.map((meditation) => (
                             <Card key={meditation.title} className="group relative overflow-hidden bg-card/60 backdrop-blur-lg border-white/20 hover:bg-card/80 hover:border-primary/50 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl">
                                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -167,7 +149,7 @@ export default function BreathingPage() {
             </div>
 
             {currentPlaying && (
-                <div className="fixed bottom-0 left-0 right-0 z-50 p-4">
+                <div className="fixed bottom-0 left-0 right-0 z-50 p-4 max-w-lg mx-auto">
                     <AudioPlayer 
                         title={currentPlaying.title} 
                         src={currentPlaying.audio}
@@ -184,7 +166,9 @@ export default function BreathingPage() {
                     {generatedAudio ? (
                         <div className="flex flex-col items-center justify-center p-8 gap-4">
                             <p className="text-center text-muted-foreground">Your meditation for "{selectedTopic}" is ready!</p>
-                            <AudioPlayer title={`AI: ${selectedTopic}`} src={generatedAudio} />
+                             <div className="w-full">
+                                <AudioPlayer title={`AI: ${selectedTopic}`} src={generatedAudio} />
+                            </div>
                         </div>
                     ) : isGenerating ? (
                         <div className="flex flex-col items-center justify-center p-8 gap-4">

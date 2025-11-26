@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { BotMessageSquare, BookHeart, ClipboardCheck, ListMusic, Sparkles, LogOut, LayoutDashboard, User } from 'lucide-react';
+import { BotMessageSquare, BookHeart, ClipboardCheck, ListMusic, Sparkles, LogOut, LayoutDashboard, User, Waves } from 'lucide-react';
 import {
   Sidebar,
   SidebarHeader,
@@ -17,14 +17,13 @@ import { Separator } from '../ui/separator';
 import { Button } from '../ui/button';
 import { useRouter } from 'next/navigation';
 import { ThemeToggle } from '../theme-toggle';
-import { LotusIcon } from '../icons/lotus-icon';
 
 const navItems = [
   { href: '/', icon: LayoutDashboard, label: 'Dashboard' },
   { href: '/chat', icon: BotMessageSquare, label: 'Chat' },
   { href: '/journal', icon: BookHeart, label: 'Journal' },
   { href: '/habits', icon: ClipboardCheck, label: 'Habits' },
-  { href: '/breathing', icon: LotusIcon, label: 'Breathing' },
+  { href: '/breathing', icon: Waves, label: 'Meditation' },
   { href: '/playlists', icon: ListMusic, label: 'Playlists' },
   { href: '/affirmations', icon: Sparkles, label: 'Affirmations' },
   { href: '/profile', icon: User, label: 'Profile' },
@@ -43,7 +42,7 @@ export default function AppSidebar() {
     <Sidebar className="border-r border-white/10 bg-card/30 backdrop-blur-xl" collapsible="icon">
         <SidebarHeader className="p-4">
             <Link href="/" className="flex items-center gap-2 group-data-[collapsible=icon]:justify-center">
-                <Sparkles className="w-8 h-8 text-primary group-data-[collapsible=icon]:w-6 group-data-[collapsible=icon]:h-6 transition-all" />
+                <Waves className="w-8 h-8 text-primary group-data-[collapsible=icon]:w-6 group-data-[collapsible=icon]:h-6 transition-all" />
                 <h1 className="text-4xl font-headline font-bold text-primary group-data-[collapsible=icon]:hidden">Aurael</h1>
             </Link>
         </SidebarHeader>
