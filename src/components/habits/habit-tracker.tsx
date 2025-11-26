@@ -13,6 +13,7 @@ import { HabitSkeleton } from './habit-skeleton';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../ui/alert-dialog';
 import { Calendar } from '../ui/calendar';
 import { DayPicker, DayContent, DayContentProps } from 'react-day-picker';
+import { Confetti } from './confetti';
 
 const initialHabits: Habit[] = [
   { id: '1', name: 'Meditate 5 mins', icon: Zap, frequency: 'daily', streak: 5, lastCompleted: '2024-05-20T10:00:00.000Z', history: ['2024-05-20T10:00:00.000Z', '2024-05-19T10:00:00.000Z', '2024-05-18T10:00:00.000Z', '2024-05-17T10:00:00.000Z', '2024-05-16T10:00:00.000Z'] },
@@ -83,28 +84,6 @@ export default function HabitTracker() {
     setHabits(habits.filter((habit) => habit.id !== id));
   };
   
-  const FloatingHearts = () => {
-    const hearts = Array.from({ length: 10 });
-    return (
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {hearts.map((_, i) => (
-          <div
-            key={i}
-            className="floating-heart"
-            style={{
-              left: `${Math.random() * 100}%`,
-              animationDuration: `${Math.random() * 8 + 15}s`, // 15s to 23s
-              animationDelay: `${Math.random() * 5}s`,
-              fontSize: `${Math.random() * 0.8 + 0.4}rem`, // 0.4rem to 1.2rem
-            }}
-          >
-            &#x2764;
-          </div>
-        ))}
-      </div>
-    );
-  };
-
   return (
     <div className="space-y-4">
       <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
@@ -140,10 +119,7 @@ export default function HabitTracker() {
             const completedDates = habit.history.map(date => parseISO(date));
 
             return (
-                <Card key={habit.id} className={cn("bg-background/50 transition-all with-left-shadow group relative overflow-hidden")}>
-                    {isCompletedToday && (
-                       <FloatingHearts />
-                    )}
+                <Card key={habit.id} className={cn("bg-background/50 transition-all with-left-shadow group relative overflow-hidden", isCompletedToday && "shadow-2xl shadow-primary/30")}>
                   <CardContent className="p-4 flex items-center justify-between relative z-10">
                       <div className="flex items-center gap-4">
                           <Icon className="w-6 h-6 text-primary" />
@@ -156,15 +132,18 @@ export default function HabitTracker() {
                           </div>
                       </div>
                       <div className="relative flex items-center gap-1">
-                          <Button
-                            size="icon"
-                            variant={isCompletedToday ? "secondary" : "outline"}
-                            onClick={() => handleToggleHabit(habit.id)}
-                            className={cn("rounded-full w-12 h-12 shrink-0 z-10", isCompletedToday && "bg-primary/80 hover:bg-primary")}
-                            aria-label={`Complete habit: ${habit.name}`}
-                          >
-                            <Check className="w-6 h-6" />
-                          </Button>
+                          <div className="relative">
+                            {isCompletedToday && <Confetti />}
+                            <Button
+                                size="icon"
+                                variant={isCompletedToday ? "secondary" : "outline"}
+                                onClick={() => handleToggleHabit(habit.id)}
+                                className={cn("rounded-full w-12 h-12 shrink-0 z-10", isCompletedToday && "bg-primary/80 hover:bg-primary")}
+                                aria-label={`Complete habit: ${habit.name}`}
+                            >
+                                <Check className="w-6 h-6" />
+                            </Button>
+                          </div>
                           <div className="flex flex-col gap-1">
                             <Dialog>
                                 <DialogTrigger asChild>
@@ -172,9 +151,12 @@ export default function HabitTracker() {
                                         <CalendarIcon className="w-4 h-4 text-muted-foreground"/>
                                     </Button>
                                 </DialogTrigger>
-                                <DialogContent className="max-w-min bg-card/80 backdrop-blur-xl shadow-2xl shadow-primary/20">
+                                <DialogContent className="max-w-min bg-white dark:bg-card/80 backdrop-blur-xl shadow-2xl shadow-primary/20 border-primary/20">
                                     <DialogHeader>
-                                        <DialogTitle className="font-headline">{habit.name} Streak</DialogTitle>
+                                        <DialogTitle className="font-headline flex items-center gap-2">
+                                            {habit.name} Streak
+                                            <span className='text-xs'>💖💖💖</span>
+                                        </DialogTitle>
                                     </DialogHeader>
                                     <Calendar
                                         mode="multiple"
@@ -188,15 +170,13 @@ export default function HabitTracker() {
                                         components={{
                                             Day: (props: DayContentProps) => {
                                                 const isCompleted = completedDates.some(d => isSameDay(d, props.date));
-                                                return isCompleted ? (
+                                                return (
                                                   <div className="relative flex h-full w-full items-center justify-center">
-                                                    <Heart className="absolute h-8 w-8 text-primary/30 fill-primary/20" />
-                                                    <span className="relative z-10 font-bold text-primary-foreground">
+                                                    {isCompleted && <Heart className="absolute h-8 w-8 text-primary/30 fill-primary/20" />}
+                                                    <span className={cn("relative z-10", isCompleted && "font-bold text-primary-foreground")}>
                                                       {props.date.getDate()}
                                                     </span>
                                                   </div>
-                                                ) : (
-                                                  <DayContent {...props} />
                                                 );
                                             },
                                         }}
