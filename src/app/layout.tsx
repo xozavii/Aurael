@@ -29,12 +29,7 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <ThemeProvider>
           <BackgroundAurora />
           <div className="relative z-10">{children}</div>
           <Toaster />
