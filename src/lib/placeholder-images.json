@@ -3,42 +3,42 @@
     {
       "id": "calm-playlist",
       "description": "A tranquil lake at dawn.",
-      "imageUrl": "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?q=80&w=2070&auto=format&fit=crop",
+      "imageUrl": "https://images.unsplash.com/photo-1574790335676-2a2bb9d70d08?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxjYWxtJTIwZ3JhZGllbnR8ZW58MHx8fHwxNzY0MTczMjYyfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "calm gradient",
       "spotifyUrl": "https://open.spotify.com/playlist/37i9dQZF1DWZqd5JICZI0u"
     },
     {
       "id": "upbeat-playlist",
       "description": "A sunny field of sunflowers.",
-      "imageUrl": "https://images.unsplash.com/photo-1557683316-9a7029a1a6a2?q=80&w=2070&auto=format&fit=crop",
+      "imageUrl": "https://images.unsplash.com/photo-1632194978058-4f2f48bc68c2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHx1cGJlYXQlMjBncmFkaWVudHxlbnwwfHx8fDE3NjQxNzMyNjJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "upbeat gradient",
       "spotifyUrl": "https://open.spotify.com/playlist/37i9dQZF1DX3rxVfibe1L0"
     },
     {
       "id": "focus-playlist",
       "description": "A quiet library with rows of books.",
-      "imageUrl": "https://images.unsplash.com/photo-1554034483-74b435a4e5b3?q=80&w=2070&auto=format&fit=crop",
+      "imageUrl": "https://images.unsplash.com/photo-1716042054260-4afd5dcc379d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxmb2N1cyUyMGdyYWRpZW50fGVufDB8fHx8MTc2NDE3MzI2Mnww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "focus gradient",
       "spotifyUrl": "https://open.spotify.com/playlist/37i9dQZF1DX8Uebhn9wzrS"
     },
     {
       "id": "melancholy-playlist",
       "description": "Raindrops on a window pane.",
-      "imageUrl": "https://images.unsplash.com/photo-1614850523459-c6f4c798b1a2?q=80&w=2070&auto=format&fit=crop",
+      "imageUrl": "https://images.unsplash.com/photo-1760605193118-a3536e1eea61?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxtZWxhbmNob2x5JTIwZ3JhZGllbnR8ZW58MHx8fHwxNzY0MTczMjYyfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "melancholy gradient",
       "spotifyUrl": "https://open.spotify.com/playlist/37i9dQZF1DX7gIoKXt0gmx"
     },
     {
       "id": "energetic-playlist",
       "description": "A person running on a mountain trail at sunrise.",
-      "imageUrl": "https://images.unsplash.com/photo-1603366615917-e8a25c9b6f8b?q=80&w=2070&auto=format&fit=crop",
+      "imageUrl": "https://images.unsplash.com/photo-1763010156913-8f81b3f1a047?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxlbmVyZ2V0aWMlMjBncmFkaWVudHxlbnwwfHx8fDE3NjQxNzMyNjJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "energetic gradient",
       "spotifyUrl": "https://open.spotify.com/playlist/37i9dQZF1DX76Wlfdnj7AP"
     },
     {
       "id": "romantic-playlist",
       "description": "A couple watching a sunset over the ocean.",
-      "imageUrl": "https://images.unsplash.com/photo-1587588494054-a05935f3d9d3?q=80&w=2070&auto=format&fit=crop",
+      "imageUrl": "https://images.unsplash.com/photo-1748195690920-d3b3730f382f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxyb21hbnRpYyUyMGdyYWRpZW50fGVufDB8fHx8MTc2NDE3MzI2Mnww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "romantic gradient",
       "spotifyUrl": "https://open.spotify.com/playlist/37i9dQZF1DWVlYsZJXqdym"
     }
