@@ -1,22 +1,15 @@
 'use client';
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { getGuidedMeditation } from '@/lib/actions';
-import { Loader, Wand2, Sparkles, Wind, Bed, Star, Brain, Heart, Clock, Waves } from 'lucide-react';
+import { Loader, Wand2, Sparkles, Wind, Bed, Star, Brain, Heart, Clock, Waves, Play } from 'lucide-react';
 import AudioPlayer from '@/components/meditation/audio-player';
 import { useToast } from '@/hooks/use-toast';
-
-const meditationCategories = [
-    { title: 'Stress Relief', duration: '5 min', icon: Wind, prompt: 'a 5 minute guided meditation for stress relief' },
-    { title: 'Sleep Meditation', duration: '3 min', icon: Bed, prompt: 'a 3 minute guided meditation for falling asleep' },
-    { title: 'Confidence Boost', duration: '5 min', icon: Star, prompt: 'a 5 minute guided meditation to boost confidence' },
-    { title: 'Aura Cleanse', duration: '4 min', icon: Sparkles, prompt: 'a 4 minute aura cleanse meditation' },
-    { title: 'Self-Love Healing', duration: '6 min', icon: Heart, prompt: 'a 6 minute self-love and healing meditation' },
-    { title: 'Focus & Study Calm', duration: '3 min', icon: Brain, prompt: 'a 3 minute meditation for focus and calm while studying' },
-];
+import { Button } from '@/components/ui/button';
+import { meditations } from '@/lib/meditations';
 
 const aiMeditationTopics = [
     { value: 'releasing anxiety', label: 'Releasing Anxiety' },
@@ -78,17 +71,6 @@ export default function BreathingPage() {
         setIsGenerating(false);
     };
 
-    const handlePlayPrewritten = async (title: string, prompt: string) => {
-        toast({ title: 'Loading meditation...', description: 'Please wait a moment.' });
-        setCurrentPlaying(null);
-        const result = await getGuidedMeditation(prompt);
-        if (result.audioUrl) {
-            setCurrentPlaying({ title, audio: result.audioUrl });
-        } else {
-            toast({ title: 'Error', description: 'Could not load meditation audio.', variant: 'destructive' });
-        }
-    }
-
     const handlePlayGenerated = () => {
         if (generatedAudio) {
             setCurrentPlaying({ title: `AI: ${selectedTopic}`, audio: generatedAudio });
@@ -96,6 +78,19 @@ export default function BreathingPage() {
             setGeneratedAudio(null);
         }
     }
+    
+    const getIcon = (iconName: string) => {
+        switch (iconName) {
+            case 'Wind': return Wind;
+            case 'Bed': return Bed;
+            case 'Star': return Star;
+            case 'Sparkles': return Sparkles;
+            case 'Heart': return Heart;
+            case 'Brain': return Brain;
+            default: return Waves;
+        }
+    };
+
 
     return (
         <div className="container mx-auto h-full flex flex-col items-center justify-center gap-8 relative overflow-hidden">
@@ -122,28 +117,34 @@ export default function BreathingPage() {
                     </Card>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {meditationCategories.map((meditation) => (
-                            <Card key={meditation.title} className="group relative overflow-hidden bg-card/60 backdrop-blur-lg border-white/20 hover:bg-card/80 hover:border-primary/50 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl">
-                                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                                <CardHeader className="relative z-10">
-                                    <div className="flex items-center justify-between">
-                                        <div className="p-3 bg-primary/20 rounded-full mb-3">
-                                            <meditation.icon className="w-6 h-6 text-primary" />
-                                        </div>
-                                        <span className="text-xs font-semibold text-muted-foreground bg-secondary px-2 py-1 rounded-full flex items-center gap-1">
-                                            <Clock className="w-3 h-3" />
-                                            {meditation.duration}
-                                        </span>
-                                    </div>
-                                    <CardTitle className="font-headline text-xl">{meditation.title}</CardTitle>
-                                </CardHeader>
-                                <CardContent className="relative z-10">
-                                    <Button className="w-full" onClick={() => handlePlayPrewritten(meditation.title, meditation.prompt)}>
-                                        Start
-                                    </Button>
-                                </CardContent>
-                            </Card>
-                        ))}
+                        {meditations.map((meditation) => {
+                            const Icon = getIcon(meditation.icon);
+                            return (
+                                <Link href={`/meditation/${meditation.id}`} key={meditation.id} className="group block">
+                                    <Card className="group relative overflow-hidden bg-card/60 backdrop-blur-lg border-white/20 hover:bg-card/80 hover:border-primary/50 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl h-full">
+                                        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                        <CardHeader className="relative z-10">
+                                            <div className="flex items-center justify-between">
+                                                <div className="p-3 bg-primary/20 rounded-full mb-3">
+                                                    <Icon className="w-6 h-6 text-primary" />
+                                                </div>
+                                                <span className="text-xs font-semibold text-muted-foreground bg-secondary px-2 py-1 rounded-full flex items-center gap-1">
+                                                    <Clock className="w-3 h-3" />
+                                                    {meditation.duration} min
+                                                </span>
+                                            </div>
+                                            <CardTitle className="font-headline text-xl">{meditation.title}</CardTitle>
+                                        </CardHeader>
+                                        <CardContent className="relative z-10">
+                                            <Button className="w-full">
+                                                <Play className="mr-2 h-4 w-4" />
+                                                Start
+                                            </Button>
+                                        </CardContent>
+                                    </Card>
+                                </Link>
+                            )
+                        })}
                     </div>
                 </div>
             </div>

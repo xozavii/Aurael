@@ -1,0 +1,46 @@
+{
+    "meditations": [
+      {
+        "id": "stress-relief",
+        "title": "Stress Relief",
+        "duration": 5,
+        "icon": "Wind",
+        "audio": "https://cdn.pixabay.com/audio/2022/03/10/audio_0cb39d5059.mp3"
+      },
+      {
+        "id": "sleep",
+        "title": "Sleep Meditation",
+        "duration": 3,
+        "icon": "Bed",
+        "audio": "https://cdn.pixabay.com/audio/2022/10/14/audio_39e1c3809b.mp3"
+      },
+      {
+        "id": "confidence",
+        "title": "Confidence Boost",
+        "duration": 5,
+        "icon": "Star",
+        "audio": "https://cdn.pixabay.com/audio/2023/10/24/audio_a7e2b7405c.mp3"
+      },
+      {
+        "id": "aura-cleanse",
+        "title": "Aura Cleanse",
+        "duration": 4,
+        "icon": "Sparkles",
+        "audio": "https://cdn.pixabay.com/audio/2022/11/17/audio_8b24f574b6.mp3"
+      },
+      {
+        "id": "self-love",
+        "title": "Self-Love Healing",
+        "duration": 6,
+        "icon": "Heart",
+        "audio": "https://cdn.pixabay.com/audio/2023/09/22/audio_1c7b2c554e.mp3"
+      },
+      {
+        "id": "focus-study",
+        "title": "Focus & Study Calm",
+        "duration": 3,
+        "icon": "Brain",
+        "audio": "https://cdn.pixabay.com/audio/2024/02/09/audio_65b38a4675.mp3"
+      }
+    ]
+}
