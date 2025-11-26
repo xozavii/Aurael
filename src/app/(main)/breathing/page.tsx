@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { getGuidedMeditation } from '@/lib/actions';
-import { Loader, Wand2, Sparkles, Wind, Bed, Star, Brain, Heart, BookOpen, Clock, Waves } from 'lucide-react';
+import { Loader, Wand2, Sparkles, Wind, Bed, Star, Brain, Heart, Clock, Waves } from 'lucide-react';
 import AudioPlayer from '@/components/meditation/audio-player';
 import { useToast } from '@/hooks/use-toast';
 

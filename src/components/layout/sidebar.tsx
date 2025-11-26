@@ -55,7 +55,7 @@ export default function AppSidebar() {
                         isActive={pathname === item.href}
                         tooltip={{ children: item.label, className: 'bg-card/80 backdrop-blur-md' }}
                         className={cn(
-                          "data-[active=true]:bg-primary/20 data-[active=true]:text-primary-foreground hover:bg-primary/10",
+                          "data-[active=true]:bg-primary/20 data-[active=true]:text-primary hover:bg-primary/10",
                           "group-data-[collapsible=icon]:w-12 group-data-[collapsible=icon]:h-12"
                         )}
                     >
