@@ -22,7 +22,7 @@ const initialHabits: Habit[] = [
 ];
 
 const FloatingHearts = () => {
-    const hearts = Array.from({ length: 10 });
+    const hearts = Array.from({ length: 3 });
     return (
       <div className="absolute inset-0 pointer-events-none overflow-hidden z-20">
         {hearts.map((_, i) => (
@@ -174,11 +174,10 @@ export default function HabitTracker() {
                                         <CalendarIcon className="w-4 h-4 text-muted-foreground"/>
                                     </Button>
                                 </DialogTrigger>
-                                <DialogContent className="max-w-min bg-card/80 backdrop-blur-xl shadow-2xl shadow-primary/20 border-primary/20">
+                                <DialogContent className="max-w-min bg-card shadow-2xl shadow-primary/20 border-primary/20">
                                     <DialogHeader>
                                         <DialogTitle className="font-headline flex items-center gap-2">
                                             {habit.name} Streak
-                                            <span className='text-xs'>💖💖💖</span>
                                         </DialogTitle>
                                     </DialogHeader>
                                     <Calendar
@@ -241,5 +240,3 @@ export default function HabitTracker() {
     </div>
   );
 }
-
-    
