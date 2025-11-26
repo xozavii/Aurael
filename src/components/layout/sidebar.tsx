@@ -17,14 +17,14 @@ import { Separator } from '../ui/separator';
 import { Button } from '../ui/button';
 import { useRouter } from 'next/navigation';
 import { ThemeToggle } from '../theme-toggle';
-import { MeditationIcon } from '../icons/meditation-icon';
+import { MindfulHeadIcon } from '../icons/mindful-head-icon';
 
 const navItems = [
   { href: '/', icon: LayoutDashboard, label: 'Dashboard' },
   { href: '/chat', icon: BotMessageSquare, label: 'Chat' },
   { href: '/journal', icon: BookHeart, label: 'Journal' },
   { href: '/habits', icon: ClipboardCheck, label: 'Habits' },
-  { href: '/breathing', icon: MeditationIcon, label: 'Breathing' },
+  { href: '/breathing', icon: MindfulHeadIcon, label: 'Breathing' },
   { href: '/playlists', icon: ListMusic, label: 'Playlists' },
   { href: '/affirmations', icon: Sparkles, label: 'Affirmations' },
   { href: '/profile', icon: User, label: 'Profile' },
