@@ -153,10 +153,7 @@
 /* Floating hearts animation */
 @keyframes float-heart {
   0% {
-    transform: translateY(10vh) scale(1);
-    opacity: 0;
-  }
-  10%, 90% {
+    transform: translateY(0) scale(1);
     opacity: 1;
   }
   100% {

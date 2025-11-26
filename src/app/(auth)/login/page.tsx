@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { AuraelWaveIcon } from '@/components/icons/aurael-wave-icon';
 
 const FloatingHearts = () => {
-    const hearts = Array.from({ length: 25 });
+    const hearts = Array.from({ length: 40 }); // Increased count for a fuller effect
   
     return (
       <div className="floating-hearts-container">
@@ -15,8 +15,8 @@ const FloatingHearts = () => {
             className="floating-heart"
             style={{
               left: `${Math.random() * 100}vw`,
-              animationDuration: `${Math.random() * 15 + 20}s`, // Slower, more varied speeds
-              animationDelay: `${Math.random() * 20}s`, // Staggered start times
+              animationDuration: `${Math.random() * 10 + 15}s`, // Duration of 15s to 25s
+              animationDelay: `-${Math.random() * 25}s`, // Negative delay to start immediately
               fontSize: `${Math.random() * 1.25 + 0.5}rem`, 
             }}
           >
@@ -38,7 +38,7 @@ export default function LoginPage() {
         <CardHeader className="text-center">
           <CardTitle className="font-headline text-8xl text-primary">Aurael</CardTitle>
           <CardDescription className="text-foreground/80 mt-2 flex items-center justify-center gap-2">
-            the wave of aura <AuraelWaveIcon className="w-16 h-16" />
+            the wave of aura <AuraelWaveIcon className="w-16 h-16 text-primary" />
           </CardDescription>
         </CardHeader>
         <CardContent>
