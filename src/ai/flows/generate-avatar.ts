@@ -32,11 +32,12 @@ const generateAvatarFlow = ai.defineFlow(
         aspectRatio: '1:1',
       },
     });
-    
-    if (!media.url) {
+
+    const imageUrl = media.url;
+    if (!imageUrl) {
       throw new Error('Image generation failed to return a URL.');
     }
 
-    return {imageUrl: media.url};
+    return {imageUrl};
   }
 );
