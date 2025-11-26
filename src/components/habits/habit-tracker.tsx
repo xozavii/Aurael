@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
-import { Flame, Plus, Check, Zap, Coffee, BookOpen, Trash2 } from 'lucide-react';
+import { Flame, Plus, Check, Zap, Coffee, BookOpen, Trash2, Heart } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { isToday } from 'date-fns';
 import { cn } from '@/lib/utils';
@@ -100,8 +100,13 @@ export default function HabitTracker() {
             const isCompletedToday = habit.lastCompleted ? isToday(new Date(habit.lastCompleted)) : false;
             const Icon = habit.icon;
             return (
-                <Card key={habit.id} className={cn("bg-background/50 transition-all with-left-shadow group", isCompletedToday && "bg-primary/20 border-primary/50")}>
-                  <CardContent className="p-4 flex items-center justify-between">
+                <Card key={habit.id} className={cn("bg-background/50 transition-all with-left-shadow group relative overflow-hidden", isCompletedToday && "border-primary/50")}>
+                    {isCompletedToday && (
+                        <Heart 
+                            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 text-primary opacity-20 animate-heartbeat"
+                        />
+                    )}
+                  <CardContent className="p-4 flex items-center justify-between relative z-10">
                       <div className="flex items-center gap-4">
                           <Icon className="w-6 h-6 text-primary" />
                           <div>
