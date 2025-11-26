@@ -27,33 +27,22 @@ export default function MeditationPlayerPage() {
     useEffect(() => {
         if (meditation) {
             setTimeLeft(meditation.duration * 60);
+            if (!audioRef.current) {
+                audioRef.current = new Audio(meditation.audio);
+            } else {
+                audioRef.current.src = meditation.audio;
+            }
+    
+            if (meditation.instructionAudio) {
+                if (!instructionAudioRef.current) {
+                    instructionAudioRef.current = new Audio(meditation.instructionAudio);
+                } else {
+                    instructionAudioRef.current.src = meditation.instructionAudio;
+                }
+            }
         }
     }, [meditation]);
     
-    useEffect(() => {
-        // Initialize audio refs
-        if (!audioRef.current) {
-            audioRef.current = new Audio();
-        }
-        if (!instructionAudioRef.current) {
-            instructionAudioRef.current = new Audio();
-        }
-
-        const audio = audioRef.current;
-        if (audio && meditation) {
-            audio.src = meditation.audio;
-            const handleEnd = () => setIsPlaying(false);
-            audio.addEventListener('ended', handleEnd);
-            return () => audio.removeEventListener('ended', handleEnd);
-        }
-    }, [meditation]);
-
-    useEffect(() => {
-        if(instructionAudioRef.current && meditation?.instructionAudio) {
-            instructionAudioRef.current.src = meditation.instructionAudio;
-        }
-    }, [meditation]);
-
 
     useEffect(() => {
         if (!isPlaying || !hasStarted || timeLeft <= 0) {
@@ -68,9 +57,10 @@ export default function MeditationPlayerPage() {
 
     const handleStartSession = () => {
         setHasStarted(true);
-        setIsPlaying(true);
         if (audioRef.current) {
-            audioRef.current.play().catch(e => console.error("Audio autoplay failed:", e));
+            audioRef.current.play().then(() => {
+                setIsPlaying(true);
+            }).catch(e => console.error("Audio autoplay failed:", e));
         }
     }
 
@@ -176,9 +166,8 @@ export default function MeditationPlayerPage() {
                                 </svg>
                                 <span className="text-4xl font-bold font-mono">{formatTime(timeLeft)}</span>
                             </div>
-
-                            <div className="relative w-36 h-36 flex items-center justify-center overflow-hidden">
-                                <div className="absolute w-full h-full animate-aurora-glow-slow" />
+                            
+                            <div className="relative w-36 h-36 flex items-center justify-center">
                                 <div className="breathing-orb" style={{ animationPlayState: hasStarted && isPlaying ? 'running' : 'paused' }}/>
                                 <div className="breathing-particles" />
                             </div>
@@ -259,10 +248,6 @@ export default function MeditationPlayerPage() {
                 </Card>
             </div>
             )}
-
-
-            <audio ref={audioRef} />
-            <audio ref={instructionAudioRef} />
         </div>
     );
 }
