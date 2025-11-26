@@ -12,7 +12,7 @@ import { cn } from '@/lib/utils';
 import { HabitSkeleton } from './habit-skeleton';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../ui/alert-dialog';
 import { Calendar } from '../ui/calendar';
-import { DayPicker, DayContent, DayContentProps } from 'react-day-picker';
+import { DayContentProps } from 'react-day-picker';
 import { Confetti } from './confetti';
 
 const initialHabits: Habit[] = [
@@ -20,6 +20,28 @@ const initialHabits: Habit[] = [
   { id: '2', name: 'Read 10 pages', icon: BookOpen, frequency: 'daily', streak: 12, lastCompleted: '2024-05-20T10:00:00.000Z', history: [] },
   { id: '3', name: 'Morning Coffee', icon: Coffee, frequency: 'daily', streak: 2, lastCompleted: null, history: [] },
 ];
+
+const FloatingHearts = () => {
+    const hearts = Array.from({ length: 10 });
+    return (
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {hearts.map((_, i) => (
+          <div
+            key={i}
+            className="floating-heart"
+            style={{
+              left: `${Math.random() * 100}%`,
+              animationDuration: `${Math.random() * 15 + 20}s`, // 20s to 35s
+              animationDelay: `${Math.random() * 5}s`,
+              fontSize: `${Math.random() * 1 + 0.5}rem`,
+            }}
+          >
+            &#x2764;
+          </div>
+        ))}
+      </div>
+    );
+  };
 
 export default function HabitTracker() {
   const [habits, setHabits] = useState<Habit[]>(initialHabits);
@@ -120,6 +142,7 @@ export default function HabitTracker() {
 
             return (
                 <Card key={habit.id} className={cn("bg-background/50 transition-all with-left-shadow group relative overflow-hidden", isCompletedToday && "shadow-2xl shadow-primary/30")}>
+                  {isCompletedToday && <FloatingHearts />}
                   <CardContent className="p-4 flex items-center justify-between relative z-10">
                       <div className="flex items-center gap-4">
                           <Icon className="w-6 h-6 text-primary" />
@@ -151,7 +174,7 @@ export default function HabitTracker() {
                                         <CalendarIcon className="w-4 h-4 text-muted-foreground"/>
                                     </Button>
                                 </DialogTrigger>
-                                <DialogContent className="max-w-min bg-white dark:bg-card/80 backdrop-blur-xl shadow-2xl shadow-primary/20 border-primary/20">
+                                <DialogContent className="max-w-min bg-card/80 backdrop-blur-xl shadow-2xl shadow-primary/20 border-primary/20">
                                     <DialogHeader>
                                         <DialogTitle className="font-headline flex items-center gap-2">
                                             {habit.name} Streak
