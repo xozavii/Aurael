@@ -3,19 +3,27 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Play, Pause, RotateCcw } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
-const breathingCycle = [
-  { text: 'Breathe In', duration: 4000 },
-  { text: 'Hold', duration: 7000 },
-  { text: 'Breathe Out', duration: 8000 },
+type BreathingPattern = {
+  name: string;
+  cycle: { text: string; duration: number }[];
+};
+
+const patterns: BreathingPattern[] = [
+  { name: '4-7-8 Breathing', cycle: [{ text: 'Breathe In', duration: 4000 }, { text: 'Hold', duration: 7000 }, { text: 'Breathe Out', duration: 8000 }] },
+  { name: 'Box Breathing', cycle: [{ text: 'Breathe In', duration: 4000 }, { text: 'Hold', duration: 4000 }, { text: 'Breathe Out', duration: 4000 }, { text: 'Hold', duration: 4000 }] },
+  { name: 'Calm Breathing', cycle: [{ text: 'Breathe In', duration: 3000 }, { text: 'Breathe Out', duration: 6000 }] },
+  { name: 'Deep Recharge', cycle: [{ text: 'Breathe In', duration: 5000 }, { text: 'Hold', duration: 2000 }, { text: 'Breathe Out', duration: 5000 }] },
 ];
 
-const totalCycleTime = breathingCycle.reduce((sum, item) => sum + item.duration, 0);
-
 export default function BreathingExercise() {
+  const [selectedPattern, setSelectedPattern] = useState<BreathingPattern>(patterns[0]);
   const [isRunning, setIsRunning] = useState(false);
-  const [phase, setPhase] = useState(0);
+  const [phaseIndex, setPhaseIndex] = useState(0);
   const [time, setTime] = useState(0);
+
+  const totalCycleTime = selectedPattern.cycle.reduce((sum, item) => sum + item.duration, 0);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -24,20 +32,29 @@ export default function BreathingExercise() {
         setTime(prevTime => {
           const newTime = prevTime + 100;
           if (newTime >= totalCycleTime) {
-            setPhase(0);
+            setPhaseIndex(0);
             return 0;
           }
 
-          if (newTime >= 4000 && newTime < 11000) setPhase(1);
-          else if (newTime >= 11000) setPhase(2);
-          else setPhase(0);
-
+          let accumulatedDuration = 0;
+          for (let i = 0; i < selectedPattern.cycle.length; i++) {
+            accumulatedDuration += selectedPattern.cycle[i].duration;
+            if (newTime < accumulatedDuration) {
+              setPhaseIndex(i);
+              break;
+            }
+          }
           return newTime;
         });
       }, 100);
     }
     return () => clearInterval(interval);
-  }, [isRunning]);
+  }, [isRunning, totalCycleTime, selectedPattern]);
+
+  useEffect(() => {
+    handleReset();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedPattern]);
 
   const handleToggle = () => {
     setIsRunning(!isRunning);
@@ -45,8 +62,52 @@ export default function BreathingExercise() {
 
   const handleReset = () => {
     setIsRunning(false);
-    setPhase(0);
+    setPhaseIndex(0);
     setTime(0);
+  };
+  
+  const handlePatternChange = (patternName: string) => {
+    const newPattern = patterns.find(p => p.name === patternName);
+    if (newPattern) {
+        setSelectedPattern(newPattern);
+    }
+  }
+
+  const getAnimationKeyframes = () => {
+    const cycle = selectedPattern.cycle;
+    const totalDuration = totalCycleTime;
+    let keyframes = '@keyframes breathing-animation {\n';
+    let currentTime = 0;
+    
+    keyframes += `  0% { transform: scale(0.6); box-shadow: 0 0 0 0 hsl(var(--primary) / 0.4); }\n`;
+
+    for (let i = 0; i < cycle.length; i++) {
+      const phase = cycle[i];
+      const startPercentage = (currentTime / totalDuration) * 100;
+      currentTime += phase.duration;
+      const endPercentage = (currentTime / totalDuration) * 100;
+      
+      let scale = 1;
+      if (phase.text.includes('Out')) {
+        scale = 0.6;
+      } else if (phase.text.includes('In')) {
+        scale = 1;
+      }
+      
+      if (i === 0) { // First inhale
+        keyframes += `  ${endPercentage}% { transform: scale(1); box-shadow: 0 0 40px 10px hsl(var(--primary) / 0.1); }\n`;
+      } else {
+        if(startPercentage !== endPercentage){
+           keyframes += `  ${startPercentage}%, ${endPercentage}% { transform: scale(${scale}); }\n`;
+        } else {
+            keyframes += `  ${endPercentage}% { transform: scale(${scale}); }\n`;
+        }
+      }
+    }
+
+    keyframes += `  100% { transform: scale(0.6); box-shadow: 0 0 0 0 hsl(var(--primary) / 0.4); }\n`;
+    keyframes += '}';
+    return keyframes;
   };
 
   const animationStyle = {
@@ -57,23 +118,25 @@ export default function BreathingExercise() {
   };
 
   return (
-    <div className="flex flex-col items-center gap-8 py-8">
-      <style>{`
-        @keyframes breathing-animation {
-          0% { transform: scale(0.6); box-shadow: 0 0 0 0 hsl(var(--primary) / 0.4); }
-          21% { transform: scale(1); box-shadow: 0 0 40px 10px hsl(var(--primary) / 0.1); }
-          58% { transform: scale(1); box-shadow: 0 0 40px 10px hsl(var(--primary) / 0.1); }
-          100% { transform: scale(0.6); box-shadow: 0 0 0 0 hsl(var(--primary) / 0.4); }
-        }
-      `}</style>
-      <div 
-        className="relative w-48 h-48 flex items-center justify-center"
-      >
+    <div className="flex flex-col items-center gap-6 py-4">
+      <style>{getAnimationKeyframes()}</style>
+      <Select value={selectedPattern.name} onValueChange={handlePatternChange}>
+        <SelectTrigger className="w-[280px] text-base h-11 bg-card/80">
+            <SelectValue placeholder="Choose a breathing pattern" />
+        </SelectTrigger>
+        <SelectContent>
+            {patterns.map(p => (
+                <SelectItem key={p.name} value={p.name} className="text-base">{p.name}</SelectItem>
+            ))}
+        </SelectContent>
+      </Select>
+
+      <div className="relative w-48 h-48 flex items-center justify-center my-4">
         <div 
             className="w-full h-full rounded-full bg-primary transition-all duration-1000"
             style={animationStyle}
         />
-        <p className="absolute text-2xl font-semibold z-10 text-primary-foreground">{breathingCycle[phase].text}</p>
+        <p className="absolute text-2xl font-semibold z-10 text-primary-foreground">{selectedPattern.cycle[phaseIndex].text}</p>
       </div>
 
       <div className="flex gap-4">
