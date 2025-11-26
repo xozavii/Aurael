@@ -32,7 +32,7 @@ export default function LoginForm() {
     
     // Store user info in local storage
     const user = { name, email, dob: dob.toISOString() };
-    localStorage.setItem('ceevi-user', JSON.stringify(user));
+    localStorage.setItem('aurael-user', JSON.stringify(user));
     
     toast({
       title: 'Welcome! 👋',

@@ -21,7 +21,7 @@ export default function ChatPage() {
   const router = useRouter();
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('ceevi-user');
+    const storedUser = localStorage.getItem('aurael-user');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     } else {

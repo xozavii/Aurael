@@ -35,7 +35,7 @@ export default function LoginPage() {
        <FloatingHearts />
       <Card className="w-full max-w-md bg-card/60 backdrop-blur-lg border-white/20 z-10">
         <CardHeader className="text-center">
-          <CardTitle className="font-headline text-6xl text-primary">Ceevi</CardTitle>
+          <CardTitle className="font-headline text-6xl text-primary">Aurael</CardTitle>
           <CardDescription className="text-foreground/80 mt-2">
             the wave of aura ✨
           </CardDescription>

@@ -5,7 +5,7 @@ import BackgroundAurora from '@/components/layout/background-aurora';
 import { ThemeProvider } from '@/components/theme-provider';
 
 export const metadata: Metadata = {
-  title: 'Ceevi',
+  title: 'Aurael',
   description: 'Your personal AI companion for mental well-being.',
 };
 
