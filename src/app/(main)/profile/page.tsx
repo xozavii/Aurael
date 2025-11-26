@@ -9,16 +9,19 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { Heart, User, Music, AlertTriangle, CheckCircle, Wand2, Loader } from 'lucide-react';
+import { Heart, User, Music, AlertTriangle, CheckCircle, Wand2, Loader, X } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { generateAvatar } from '@/lib/actions';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from '@/components/ui/dialog';
 
 export default function ProfilePage() {
   const [user, setUser] = useState<{ name: string; email: string; dob: string; avatarUrl?: string; } | null>(null);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [avatarUrl, setAvatarUrl] = useState<string | undefined>(undefined);
+  const [generatedAvatar, setGeneratedAvatar] = useState<string | null>(null);
   const [isGeneratingAvatar, setIsGeneratingAvatar] = useState(false);
+  const [isAvatarDialogOpen, setIsAvatarDialogOpen] = useState(false);
   const [isSpotifyConnected, setIsSpotifyConnected] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
@@ -51,21 +54,32 @@ export default function ProfilePage() {
 
   const handleGenerateAvatar = async () => {
     setIsGeneratingAvatar(true);
+    setGeneratedAvatar(null);
+    setIsAvatarDialogOpen(true);
     const result = await generateAvatar();
     if (result.imageUrl) {
-        setAvatarUrl(result.imageUrl);
-        toast({
-            title: 'Avatar Generated! 🧸',
-            description: 'Your new cute teddy avatar is ready.',
-        });
+        setGeneratedAvatar(result.imageUrl);
     } else {
         toast({
             title: 'Error Generating Avatar',
             description: result.error || 'Could not generate a new avatar. Please try again.',
             variant: 'destructive',
         });
+        setIsAvatarDialogOpen(false);
     }
     setIsGeneratingAvatar(false);
+  };
+  
+  const handleSaveAvatar = () => {
+    if (generatedAvatar) {
+      setAvatarUrl(generatedAvatar);
+      toast({
+          title: 'Avatar Saved! 🧸',
+          description: 'Your new cute teddy avatar is ready.',
+      });
+    }
+    setIsAvatarDialogOpen(false);
+    setGeneratedAvatar(null);
   };
 
   const handleNetworkError = () => {
@@ -118,12 +132,8 @@ export default function ProfilePage() {
             <div className='space-y-1'>
                 <h2 className='text-3xl font-bold'>{name}</h2>
                 <p className='text-muted-foreground'>{email}</p>
-                 <Button onClick={handleGenerateAvatar} disabled={isGeneratingAvatar} size="sm">
-                    {isGeneratingAvatar ? (
-                        <Loader className="mr-2 h-4 w-4 animate-spin" />
-                    ) : (
-                        <Wand2 className="mr-2 h-4 w-4" />
-                    )}
+                 <Button onClick={handleGenerateAvatar}>
+                    <Wand2 className="mr-2 h-4 w-4" />
                     Generate Avatar
                 </Button>
             </div>
@@ -179,6 +189,34 @@ export default function ProfilePage() {
 
         </CardContent>
       </Card>
+      
+      <Dialog open={isAvatarDialogOpen} onOpenChange={setIsAvatarDialogOpen}>
+        <DialogContent className="max-w-md bg-card/80 backdrop-blur-xl">
+          <DialogHeader>
+            <DialogTitle className="font-headline text-2xl">Your New Avatar</DialogTitle>
+          </DialogHeader>
+          <div className="flex justify-center items-center p-8 aspect-square">
+            {isGeneratingAvatar ? (
+              <div className="flex flex-col items-center gap-4">
+                <Loader className="h-16 w-16 animate-spin text-primary" />
+                <p className="text-muted-foreground">Generating your teddy...</p>
+              </div>
+            ) : generatedAvatar ? (
+                <div className='relative w-64 h-64'>
+                    <Image src={generatedAvatar} alt="Generated Avatar" fill className="rounded-full object-cover shadow-2xl shadow-primary/20" />
+                </div>
+            ) : null}
+          </div>
+          <DialogFooter>
+            <DialogClose asChild>
+                <Button type="button" variant="ghost">Cancel</Button>
+            </DialogClose>
+            <Button onClick={handleSaveAvatar} disabled={isGeneratingAvatar || !generatedAvatar}>
+              Save Avatar
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

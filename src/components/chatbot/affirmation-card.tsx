@@ -1,9 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Sparkles, Wand2 } from 'lucide-react';
+import { Wand2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { getAffirmation } from '@/lib/actions';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -37,40 +36,34 @@ export default function AffirmationCard() {
   }
 
   return (
-    <Card className="bg-card/60 backdrop-blur-lg border-white/20 with-left-shadow">
-      <CardHeader className="flex flex-row items-center justify-between pb-2">
-        <CardTitle className="text-lg font-headline font-semibold flex items-center gap-2">
-          <Sparkles className="w-5 h-5 text-primary" />
-          Your Daily Affirmation
-        </CardTitle>
-        <div className="flex items-center gap-2">
+    <div className="w-full max-w-lg mx-auto">
+        <div className="flex items-center justify-center gap-4 mb-6">
             <Select value={selectedMood} onValueChange={handleMoodChange}>
-                <SelectTrigger className="w-[120px] text-xs h-8 bg-card/80">
-                    <SelectValue placeholder="Your mood" />
+                <SelectTrigger className="w-[180px] text-base h-11 bg-card/80">
+                    <SelectValue placeholder="How are you feeling?" />
                 </SelectTrigger>
                 <SelectContent>
                     {moods.map(mood => (
-                        <SelectItem key={mood} value={mood} className="text-xs">{mood}</SelectItem>
+                        <SelectItem key={mood} value={mood} className="text-base">{mood}</SelectItem>
                     ))}
                 </SelectContent>
             </Select>
-            <Button size="icon" variant="ghost" onClick={() => fetchAffirmation(selectedMood)} disabled={loading} className="h-8 w-8">
-              <Wand2 className="w-4 h-4"/>
+            <Button size="lg" onClick={() => fetchAffirmation(selectedMood)} disabled={loading}>
+              <Wand2 className="mr-2 h-5 w-5"/>
+              Get New Affirmation
             </Button>
         </div>
-      </CardHeader>
-      <CardContent>
+      
         {loading ? (
-           <div className="flex items-center space-x-2 py-4">
-            <Skeleton className="h-4 w-4 rounded-full" />
-            <Skeleton className="h-4 w-[250px]" />
+           <div className="flex flex-col items-center space-y-2 py-4">
+            <Skeleton className="h-6 w-3/4 shimmer" />
+            <Skeleton className="h-6 w-1/2 shimmer" />
           </div>
         ) : (
-          <p className="text-xl font-medium text-center py-4 text-foreground/80 italic">
+          <p className="text-2xl font-medium text-center py-4 text-foreground/80 italic">
             &ldquo;{affirmation}&rdquo;
           </p>
         )}
-      </CardContent>
-    </Card>
+    </div>
   );
 }

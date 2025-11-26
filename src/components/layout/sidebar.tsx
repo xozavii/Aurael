@@ -25,6 +25,7 @@ const navItems = [
   { href: '/habits', icon: ClipboardCheck, label: 'Habits' },
   { href: '/breathing', icon: Wind, label: 'Breathing' },
   { href: '/playlists', icon: ListMusic, label: 'Playlists' },
+  { href: '/affirmations', icon: Sparkles, label: 'Affirmations' },
   { href: '/profile', icon: User, label: 'Profile' },
 ];
 
