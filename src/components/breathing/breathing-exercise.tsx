@@ -60,19 +60,18 @@ export default function BreathingExercise() {
     <div className="flex flex-col items-center gap-8 py-8">
       <style>{`
         @keyframes breathing-animation {
-          0% { transform: scale(0.6); }
-          ${(4000 / totalCycleTime) * 100}% { transform: scale(1); }
-          ${(11000 / totalCycleTime) * 100}% { transform: scale(1); }
-          ${(19000 / totalCycleTime) * 100}% { transform: scale(0.6); }
-          100% { transform: scale(0.6); }
+          0% { transform: scale(0.6); box-shadow: 0 0 0 0 hsl(var(--primary) / 0.4); }
+          21% { transform: scale(1); box-shadow: 0 0 40px 10px hsl(var(--primary) / 0.1); }
+          58% { transform: scale(1); box-shadow: 0 0 40px 10px hsl(var(--primary) / 0.1); }
+          100% { transform: scale(0.6); box-shadow: 0 0 0 0 hsl(var(--primary) / 0.4); }
         }
       `}</style>
       <div 
-        className="relative w-48 h-48 flex items-center justify-center transition-transform duration-1000"
-        style={animationStyle}
+        className="relative w-48 h-48 flex items-center justify-center"
       >
         <div 
-            className="w-full h-full rounded-full bg-primary"
+            className="w-full h-full rounded-full bg-primary transition-all duration-1000"
+            style={animationStyle}
         />
         <p className="absolute text-2xl font-semibold z-10 text-primary-foreground">{breathingCycle[phase].text}</p>
       </div>
