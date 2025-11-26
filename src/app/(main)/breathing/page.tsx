@@ -5,11 +5,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { getGuidedMeditation } from '@/lib/actions';
-import { Loader, Wand2, Sparkles, Wind, Bed, Star, Brain, Heart, Clock, Play, Waves } from 'lucide-react';
+import { Loader, Wand2, Sparkles, Wind, Bed, Star, Brain, Heart, Clock, Play } from 'lucide-react';
 import AudioPlayer from '@/components/meditation/audio-player';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { meditations } from '@/lib/meditations';
+import { LotusIcon } from '@/components/icons/lotus-icon';
 
 const aiMeditationTopics = [
     { value: 'releasing anxiety', label: 'Releasing Anxiety' },
@@ -87,7 +88,7 @@ export default function BreathingPage() {
             case 'Sparkles': return Sparkles;
             case 'Heart': return Heart;
             case 'Brain': return Brain;
-            default: return Waves;
+            default: return LotusIcon;
         }
     };
 
@@ -101,7 +102,7 @@ export default function BreathingPage() {
                     <Card className="w-full bg-card/60 backdrop-blur-lg border-white/20 with-left-shadow">
                         <CardHeader>
                             <CardTitle className="font-headline text-3xl flex items-center gap-2">
-                                <Waves className="w-8 h-8 text-primary" />
+                                <LotusIcon className="w-8 h-8 text-primary" />
                                 Guided Meditations
                             </CardTitle>
                             <CardDescription>
@@ -208,3 +209,5 @@ export default function BreathingPage() {
         </div>
     );
 }
+
+    

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { BotMessageSquare, BookHeart, ClipboardCheck, ListMusic, Sparkles, LogOut, LayoutDashboard, User, Waves } from 'lucide-react';
+import { BotMessageSquare, BookHeart, ClipboardCheck, ListMusic, Sparkles, LogOut, LayoutDashboard, User } from 'lucide-react';
 import {
   Sidebar,
   SidebarHeader,
@@ -18,13 +18,14 @@ import { Button } from '../ui/button';
 import { useRouter } from 'next/navigation';
 import { ThemeToggle } from '../theme-toggle';
 import { AuraelWaveIcon } from '../icons/aurael-wave-icon';
+import { LotusIcon } from '../icons/lotus-icon';
 
 const navItems = [
   { href: '/', icon: LayoutDashboard, label: 'Dashboard' },
   { href: '/chat', icon: BotMessageSquare, label: 'Chat' },
   { href: '/journal', icon: BookHeart, label: 'Journal' },
   { href: '/habits', icon: ClipboardCheck, label: 'Habits' },
-  { href: '/breathing', icon: Waves, label: 'Meditation' },
+  { href: '/breathing', icon: LotusIcon, label: 'Meditation' },
   { href: '/playlists', icon: ListMusic, label: 'Playlists' },
   { href: '/affirmations', icon: Sparkles, label: 'Affirmations' },
   { href: '/profile', icon: User, label: 'Profile' },
@@ -83,3 +84,5 @@ export default function AppSidebar() {
     </Sidebar>
   );
 }
+
+    

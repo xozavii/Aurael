@@ -3,13 +3,14 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import DashboardCard from '@/components/dashboard/dashboard-card';
-import { BotMessageSquare, BookHeart, ClipboardCheck, ListMusic, User, Sparkles, Waves } from 'lucide-react';
+import { BotMessageSquare, BookHeart, ClipboardCheck, ListMusic, User, Sparkles } from 'lucide-react';
+import { LotusIcon } from '@/components/icons/lotus-icon';
 
 const dashboardItems = [
   { href: '/chat', icon: BotMessageSquare, label: 'Chat', description: "Talk with Ceevi, your AI companion." },
   { href: '/journal', icon: BookHeart, label: 'Journal', description: "Reflect on your thoughts and feelings." },
   { href: '/habits', icon: ClipboardCheck, label: 'Habits', description: "Track and build positive routines." },
-  { href: '/breathing', icon: Waves, label: 'Meditation', description: 'Listen to guided meditations.' },
+  { href: '/breathing', icon: LotusIcon, label: 'Meditation', description: 'Listen to guided meditations.' },
   { href: '/playlists', icon: ListMusic, label: 'Playlists', description: "Listen to music for your mood." },
   { href: '/affirmations', icon: Sparkles, label: 'Affirmations', description: 'Get a dose of daily positivity.' },
 ];
@@ -55,3 +56,5 @@ export default function DashboardPage() {
     </div>
   );
 }
+
+    
