@@ -4,7 +4,7 @@ import { ThemeToggle } from '@/components/theme-toggle';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 const FloatingHearts = () => {
-    const hearts = Array.from({ length: 15 });
+    const hearts = Array.from({ length: 20 });
   
     return (
       <div className="floating-hearts-container">
@@ -14,8 +14,8 @@ const FloatingHearts = () => {
             className="floating-heart"
             style={{
               left: `${Math.random() * 100}vw`,
-              animationDuration: `${Math.random() * 10 + 25}s`, // 25s to 35s
-              animationDelay: `${Math.random() * 10}s`,
+              animationDuration: `${Math.random() * 10 + 20}s`, // 20s to 30s
+              animationDelay: `${Math.random() * 15}s`,
               fontSize: `${Math.random() * 1.5 + 0.5}rem`, // 0.5rem to 2rem
             }}
           >
