@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { meditations } from '@/lib/meditations';
 import { Button } from '@/components/ui/button';
-import { Play, Pause, RotateCcw, ChevronLeft, Brain, Sparkles, Wind } from 'lucide-react';
+import { Play, Pause, RotateCcw, ChevronLeft, Brain, Sparkles, Wind, Info, Volume2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const formatTime = (seconds: number) => {
@@ -17,23 +17,23 @@ export default function MeditationPlayerPage() {
     const router = useRouter();
     const meditation = meditations.find(m => m.id === id);
 
-    const [isPlaying, setIsPlaying] = useState(true);
+    const [hasStarted, setHasStarted] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(false);
     const [timeLeft, setTimeLeft] = useState(meditation ? meditation.duration * 60 : 0);
     const audioRef = useRef<HTMLAudioElement | null>(null);
+    const instructionAudioRef = useRef<HTMLAudioElement | null>(null);
+
 
     useEffect(() => {
         if (meditation) {
             setTimeLeft(meditation.duration * 60);
         }
     }, [meditation]);
-
+    
     useEffect(() => {
         const audio = audioRef.current;
         if (audio && meditation) {
             audio.src = meditation.audio;
-            audio.play().catch(e => console.error("Audio autoplay failed:", e));
-            setIsPlaying(true);
-
             const handleEnd = () => setIsPlaying(false);
             audio.addEventListener('ended', handleEnd);
             return () => audio.removeEventListener('ended', handleEnd);
@@ -41,7 +41,14 @@ export default function MeditationPlayerPage() {
     }, [meditation]);
 
     useEffect(() => {
-        if (!isPlaying || timeLeft === 0) {
+        if(instructionAudioRef.current && meditation?.instructionAudio) {
+            instructionAudioRef.current.src = meditation.instructionAudio;
+        }
+    }, [meditation]);
+
+
+    useEffect(() => {
+        if (!isPlaying || !hasStarted || timeLeft === 0) {
             return;
         }
         const timer = setInterval(() => {
@@ -49,7 +56,15 @@ export default function MeditationPlayerPage() {
         }, 1000);
 
         return () => clearInterval(timer);
-    }, [isPlaying, timeLeft]);
+    }, [isPlaying, hasStarted, timeLeft]);
+
+    const handleStartSession = () => {
+        setHasStarted(true);
+        setIsPlaying(true);
+        if (audioRef.current) {
+            audioRef.current.play().catch(e => console.error("Audio autoplay failed:", e));
+        }
+    }
 
     const togglePlayPause = () => {
         if (audioRef.current) {
@@ -62,12 +77,25 @@ export default function MeditationPlayerPage() {
         }
     };
 
+    const handlePlayInstructions = () => {
+        if (instructionAudioRef.current) {
+            if (!instructionAudioRef.current.paused) {
+                instructionAudioRef.current.pause();
+                instructionAudioRef.current.currentTime = 0;
+            } else {
+                instructionAudioRef.current.play().catch(e => console.error("Instruction audio failed:", e));
+            }
+        }
+    }
+
     const handleRestart = () => {
         if (meditation && audioRef.current) {
             setTimeLeft(meditation.duration * 60);
             audioRef.current.currentTime = 0;
-            audioRef.current.play();
-            setIsPlaying(true);
+            if(hasStarted){
+                audioRef.current.play();
+                setIsPlaying(true);
+            }
         }
     };
 
@@ -75,7 +103,7 @@ export default function MeditationPlayerPage() {
         return <div className="flex items-center justify-center h-full">Meditation not found.</div>;
     }
     
-    const isFinished = timeLeft === 0;
+    const isFinished = timeLeft === 0 && hasStarted;
 
     const getPhaseIcon = (phase: string) => {
         switch(phase.toLowerCase()) {
@@ -121,6 +149,7 @@ export default function MeditationPlayerPage() {
                         <div className="relative w-48 h-48 mx-auto flex items-center justify-center">
                             <svg className="absolute w-full h-full" viewBox="0 0 100 100">
                                 <circle className="stroke-current text-primary/10" strokeWidth="4" cx="50" cy="50" r="45" fill="transparent"></circle>
+                                {hasStarted && (
                                 <circle
                                     className="stroke-current text-primary transition-all duration-1000 ease-linear"
                                     strokeWidth="4"
@@ -133,48 +162,72 @@ export default function MeditationPlayerPage() {
                                     fill="transparent"
                                     transform="rotate(-90 50 50)"
                                 ></circle>
+                                )}
                             </svg>
                             <span className="text-5xl font-bold font-mono">{formatTime(timeLeft)}</span>
                         </div>
                 
                         <div className="flex justify-center items-center gap-4">
-                            <Button onClick={togglePlayPause} size="lg" className="w-28">
-                                {isPlaying ? <Pause className="mr-2 h-5 w-5" /> : <Play className="mr-2 h-5 w-5" />}
-                                {isPlaying ? 'Pause' : 'Resume'}
-                            </Button>
-                            <Button onClick={handleRestart} variant="outline" size="lg">
-                                <RotateCcw className="mr-2 h-4 w-4" />
-                                Restart
-                            </Button>
+                            {!hasStarted ? (
+                                <Button onClick={handleStartSession} size="lg" className="w-full">
+                                    <Play className="mr-2 h-5 w-5" />
+                                    Start Session
+                                </Button>
+                            ) : (
+                                <>
+                                    <Button onClick={togglePlayPause} size="lg" className="w-28">
+                                        {isPlaying ? <Pause className="mr-2 h-5 w-5" /> : <Play className="mr-2 h-5 w-5" />}
+                                        {isPlaying ? 'Pause' : 'Resume'}
+                                    </Button>
+                                    <Button onClick={handleRestart} variant="outline" size="lg">
+                                        <RotateCcw className="mr-2 h-4 w-4" />
+                                        Restart
+                                    </Button>
+                                </>
+                            )}
                         </div>
                     </>
                 )}
             </Card>
 
+            <div className="w-full max-w-4xl mt-8">
+                 <div className="grid md:grid-cols-2 gap-8 items-start">
+                    <Card className="bg-card/30 backdrop-blur-xl border-white/10 text-center">
+                        <CardHeader>
+                            <CardTitle className="text-lg font-semibold flex items-center gap-2 justify-center"><Info className="w-5 h-5"/> Description</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <p className="text-muted-foreground italic">{meditation.description}</p>
+                        </CardContent>
+                    </Card>
+
+                    <Card className="bg-card/30 backdrop-blur-xl border-white/10">
+                        <CardHeader>
+                            <CardTitle className="text-lg font-semibold flex items-center justify-between">
+                                <span>How to Do This Meditation</span>
+                                {meditation.instructionAudio && (
+                                <Button variant="ghost" size="icon" onClick={handlePlayInstructions} className="w-8 h-8 rounded-full">
+                                    <Volume2 className="w-5 h-5" />
+                                </Button>
+                                )}
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <ul className="list-disc list-inside space-y-2 text-muted-foreground text-left">
+                                {meditation.instructions.map((step, index) => (
+                                    <li key={index}>{step}</li>
+                                ))}
+                            </ul>
+                        </CardContent>
+                    </Card>
+                 </div>
+            </div>
+
             {!isFinished && (
             <div className="w-full max-w-md mt-8 space-y-6">
-                 <Card className="bg-card/30 backdrop-blur-xl border-white/10 text-center">
-                    <CardContent className="p-4">
-                        <p className="text-muted-foreground italic">{meditation.description}</p>
-                    </CardContent>
-                </Card>
-
-                <Card className="bg-card/30 backdrop-blur-xl border-white/10">
-                    <CardHeader>
-                        <CardTitle className="text-lg font-semibold">How to Do This Meditation</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <ul className="list-disc list-inside space-y-2 text-muted-foreground">
-                            {meditation.instructions.map((step, index) => (
-                                <li key={index}>{step}</li>
-                            ))}
-                        </ul>
-                    </CardContent>
-                </Card>
-                
                 <div className="relative h-48 flex items-center justify-center overflow-hidden">
                     <div className="absolute w-full h-full animate-aurora-glow-slow" />
-                    <div className="breathing-orb" />
+                    <div className="breathing-orb" style={{ animationPlayState: hasStarted && isPlaying ? 'running' : 'paused' }}/>
                     <div className="breathing-particles" />
                 </div>
 
@@ -198,6 +251,7 @@ export default function MeditationPlayerPage() {
 
 
             <audio ref={audioRef} />
+            <audio ref={instructionAudioRef} />
         </div>
     );
 }

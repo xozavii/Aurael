@@ -6,6 +6,7 @@
         "duration": 5,
         "icon": "Wind",
         "audio": "https://cdn.pixabay.com/audio/2022/03/10/audio_0cb39d5059.mp3",
+        "instructionAudio": "https://cdn.pixabay.com/audio/2022/05/27/audio_18c1b32e68.mp3",
         "description": "A gentle breathing practice to calm your mind, slow your heart rate, and reset your inner peace.",
         "instructions": [
           "Sit comfortably",
@@ -23,6 +24,7 @@
         "duration": 3,
         "icon": "Bed",
         "audio": "https://cdn.pixabay.com/audio/2022/10/14/audio_39e1c3809b.mp3",
+        "instructionAudio": "https://cdn.pixabay.com/audio/2022/05/27/audio_18c1b32e68.mp3",
         "description": "A soothing journey to help you drift off into a peaceful and restorative sleep.",
         "instructions": [
           "Lie down in a comfortable position",
@@ -39,6 +41,7 @@
         "duration": 5,
         "icon": "Star",
         "audio": "https://cdn.pixabay.com/audio/2023/10/24/audio_a7e2b7405c.mp3",
+        "instructionAudio": "https://cdn.pixabay.com/audio/2022/05/27/audio_18c1b32e68.mp3",
         "description": "Empower yourself with positive affirmations to build self-esteem and inner strength.",
         "instructions": [
           "Sit or stand tall",
@@ -55,6 +58,7 @@
         "duration": 4,
         "icon": "Sparkles",
         "audio": "https://cdn.pixabay.com/audio/2022/11/17/audio_8b24f574b6.mp3",
+        "instructionAudio": "https://cdn.pixabay.com/audio/2022/05/27/audio_18c1b32e68.mp3",
         "description": "A visualization practice to cleanse your energy field and restore your inner glow.",
         "instructions": [
           "Find a quiet space",
@@ -71,6 +75,7 @@
         "duration": 6,
         "icon": "Heart",
         "audio": "https://cdn.pixabay.com/audio/2023/09/22/audio_1c7b2c554e.mp3",
+        "instructionAudio": "https://cdn.pixabay.com/audio/2022/05/27/audio_18c1b32e68.mp3",
         "description": "A compassionate meditation to cultivate kindness and acceptance towards yourself.",
         "instructions": [
           "Place both hands on your heart",
@@ -87,6 +92,7 @@
         "duration": 3,
         "icon": "Brain",
         "audio": "https://cdn.pixabay.com/audio/2024/02/09/audio_65b38a4675.mp3",
+        "instructionAudio": "https://cdn.pixabay.com/audio/2022/05/27/audio_18c1b32e68.mp3",
         "description": "Sharpen your concentration and find a calm state of mind for effective studying or work.",
         "instructions": [
           "Sit upright at your desk or workspace",

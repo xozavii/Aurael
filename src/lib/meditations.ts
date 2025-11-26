@@ -6,6 +6,7 @@ export type Meditation = {
     duration: number;
     icon: string;
     audio: string;
+    instructionAudio?: string;
     description: string;
     instructions: string[];
     phases: string[];
