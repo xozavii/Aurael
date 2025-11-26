@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { Loader, Wand2, BookText, Save, Trash2, ChevronDown, ChevronUp } from 'lucide-react';
+import { Loader, Wand2, BookText, Save, Trash2, ChevronDown, Paperclip } from 'lucide-react';
 import { getJournalSummary, getJournalReframe } from '@/lib/actions';
 import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../ui/card';
@@ -13,14 +13,18 @@ import { format } from 'date-fns';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../ui/collapsible';
 import { JournalSkeleton } from './journal-skeleton';
 import { AiResultSkeleton } from './ai-result-skeleton';
+import Image from 'next/image';
 
 export default function JournalEditor() {
   const [entry, setEntry] = useState('');
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<'summary' | 'reframe' | null>(null);
   const [aiResult, setAiResult] = useState<{title: string, content: string} | null>(null);
   const [savedEntries, setSavedEntries] = useState<JournalEntry[]>([]);
   const [entriesLoading, setEntriesLoading] = useState(true);
   const { toast } = useToast();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
 
   useEffect(() => {
     setTimeout(() => {
@@ -32,6 +36,17 @@ export default function JournalEditor() {
     }, 1500)
   }, []);
 
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (loadEvent) => {
+        setImageUrl(loadEvent.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSave = () => {
     if (!entry.trim()) {
       toast({ title: 'Your entry is empty.', variant: 'destructive' });
@@ -41,11 +56,13 @@ export default function JournalEditor() {
       id: new Date().toISOString(),
       date: new Date().toISOString(),
       content: entry,
+      imageUrl: imageUrl,
     };
     const updatedEntries = [newEntry, ...savedEntries];
     setSavedEntries(updatedEntries);
     localStorage.setItem('aurael-journal', JSON.stringify(updatedEntries));
     setEntry('');
+    setImageUrl(null);
     setAiResult(null);
     toast({ title: 'Journal entry saved! 💖' });
   };
@@ -97,11 +114,31 @@ export default function JournalEditor() {
         onChange={(e) => setEntry(e.target.value)}
         className="min-h-[250px] bg-background/80 text-base"
       />
+      {imageUrl && (
+        <div className="relative w-full h-64 rounded-md overflow-hidden border">
+            <Image src={imageUrl} alt="Journal entry" fill className="object-cover" />
+            <Button variant="destructive" size="icon" className="absolute top-2 right-2 h-8 w-8" onClick={() => setImageUrl(null)}>
+                <Trash2 className="w-4 h-4"/>
+            </Button>
+        </div>
+      )}
       <div className="flex flex-wrap gap-4">
         <Button onClick={handleSave} disabled={!!isLoading || !entry.trim()}>
             <Save className="mr-2 h-4 w-4" />
           Save Entry
         </Button>
+         <Button variant="outline" onClick={() => fileInputRef.current?.click()}>
+            <Paperclip className="mr-2 h-4 w-4" />
+            {imageUrl ? 'Change Photo' : 'Add Photo'}
+        </Button>
+        <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleImageUpload}
+            className="hidden"
+            accept="image/*"
+        />
+        <div className='flex-grow' />
         <Button onClick={handleSummarize} disabled={!!isLoading || !entry.trim()}>
           {isLoading === 'summary' ? (
             <Loader className="mr-2 h-4 w-4 animate-spin" />
@@ -164,6 +201,11 @@ export default function JournalEditor() {
                             </CardHeader>
                             <CollapsibleContent>
                                 <CardContent className='p-4 pt-0'>
+                                    {savedEntry.imageUrl && (
+                                        <div className="relative w-full h-64 rounded-md overflow-hidden border my-4">
+                                            <Image src={savedEntry.imageUrl} alt="Journal entry" fill className="object-cover" />
+                                        </div>
+                                    )}
                                     <p className="text-muted-foreground whitespace-pre-wrap">{savedEntry.content}</p>
                                 </CardContent>
                             </CollapsibleContent>

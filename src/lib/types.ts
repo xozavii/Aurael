@@ -27,4 +27,5 @@ export type JournalEntry = {
     id: string;
     date: string; // ISO string
     content: string;
+    imageUrl?: string | null; // data URI
 };

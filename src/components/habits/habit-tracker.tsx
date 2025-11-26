@@ -5,11 +5,12 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
-import { Flame, Plus, Check, Zap, Coffee, BookOpen } from 'lucide-react';
+import { Flame, Plus, Check, Zap, Coffee, BookOpen, Trash2 } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { isToday } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { HabitSkeleton } from './habit-skeleton';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../ui/alert-dialog';
 
 const initialHabits: Habit[] = [
   { id: '1', name: 'Meditate 5 mins', icon: Zap, frequency: 'daily', streak: 5, lastCompleted: '2024-05-20T10:00:00.000Z' },
@@ -57,6 +58,10 @@ export default function HabitTracker() {
       })
     );
   };
+  
+  const handleDeleteHabit = (id: string) => {
+    setHabits(habits.filter((habit) => habit.id !== id));
+  };
 
   return (
     <div className="space-y-4">
@@ -91,29 +96,50 @@ export default function HabitTracker() {
             const isCompletedToday = habit.lastCompleted ? isToday(new Date(habit.lastCompleted)) : false;
             const Icon = habit.icon;
             return (
-                <Card key={habit.id} className={cn("bg-background/50 transition-all with-left-shadow", isCompletedToday && "bg-primary/20 border-primary/50")}>
-                <CardContent className="p-4 flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                        <Icon className="w-6 h-6 text-primary" />
-                        <div>
-                            <p className="font-semibold">{habit.name}</p>
-                            <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                                <Flame className="w-4 h-4 text-orange-400" />
-                                <span>{habit.streak} day streak</span>
-                            </div>
-                        </div>
-                    </div>
-                    <Button
-                    size="icon"
-                    variant={isCompletedToday ? "secondary" : "outline"}
-                    onClick={() => handleCompleteHabit(habit.id)}
-                    disabled={isCompletedToday}
-                    className={cn("rounded-full w-12 h-12 shrink-0", isCompletedToday && "bg-primary/80 hover:bg-primary")}
-                    aria-label={`Complete habit: ${habit.name}`}
-                    >
-                    <Check className="w-6 h-6" />
-                    </Button>
-                </CardContent>
+                <Card key={habit.id} className={cn("bg-background/50 transition-all with-left-shadow group", isCompletedToday && "bg-primary/20 border-primary/50")}>
+                  <CardContent className="p-4 flex items-center justify-between">
+                      <div className="flex items-center gap-4">
+                          <Icon className="w-6 h-6 text-primary" />
+                          <div>
+                              <p className="font-semibold">{habit.name}</p>
+                              <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                                  <Flame className="w-4 h-4 text-orange-400" />
+                                  <span>{habit.streak} day streak</span>
+                              </div>
+                          </div>
+                      </div>
+                      <div className="flex items-center gap-1">
+                          <Button
+                            size="icon"
+                            variant={isCompletedToday ? "secondary" : "outline"}
+                            onClick={() => handleCompleteHabit(habit.id)}
+                            disabled={isCompletedToday}
+                            className={cn("rounded-full w-12 h-12 shrink-0", isCompletedToday && "bg-primary/80 hover:bg-primary")}
+                            aria-label={`Complete habit: ${habit.name}`}
+                          >
+                            <Check className="w-6 h-6" />
+                          </Button>
+                          <AlertDialog>
+                              <AlertDialogTrigger asChild>
+                                  <Button size="icon" variant="ghost" className="rounded-full w-8 h-8 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                                      <Trash2 className="w-4 h-4 text-destructive"/>
+                                  </Button>
+                              </AlertDialogTrigger>
+                              <AlertDialogContent>
+                                  <AlertDialogHeader>
+                                  <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                                  <AlertDialogDescription>
+                                      This action cannot be undone. This will permanently delete your habit.
+                                  </AlertDialogDescription>
+                                  </AlertDialogHeader>
+                                  <AlertDialogFooter>
+                                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                  <AlertDialogAction onClick={() => handleDeleteHabit(habit.id)}>Delete</AlertDialogAction>
+                                  </AlertDialogFooter>
+                              </AlertDialogContent>
+                          </AlertDialog>
+                      </div>
+                  </CardContent>
                 </Card>
             );
             })
