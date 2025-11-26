@@ -155,25 +155,33 @@ export default function MeditationPlayerPage() {
                 ) : (
                     <>
                         <h1 className="text-3xl font-headline text-primary">{meditation.title}</h1>
-                        <div className="relative w-48 h-48 mx-auto flex items-center justify-center">
-                            <svg className="absolute w-full h-full" viewBox="0 0 100 100">
-                                <circle className="stroke-current text-primary/10" strokeWidth="4" cx="50" cy="50" r="45" fill="transparent"></circle>
-                                {hasStarted && (
-                                <circle
-                                    className="stroke-current text-primary transition-all duration-1000 ease-linear"
-                                    strokeWidth="4"
-                                    strokeDasharray={2 * Math.PI * 45}
-                                    strokeDashoffset={2 * Math.PI * 45 * (1 - timeLeft / (meditation.duration * 60))}
-                                    strokeLinecap="round"
-                                    cx="50"
-                                    cy="50"
-                                    r="45"
-                                    fill="transparent"
-                                    transform="rotate(-90 50 50)"
-                                ></circle>
-                                )}
-                            </svg>
-                            <span className="text-5xl font-bold font-mono">{formatTime(timeLeft)}</span>
+                        <div className="flex justify-center items-center gap-8">
+                            <div className="relative w-36 h-36 mx-auto flex items-center justify-center">
+                                <svg className="absolute w-full h-full" viewBox="0 0 100 100">
+                                    <circle className="stroke-current text-primary/10" strokeWidth="4" cx="50" cy="50" r="45" fill="transparent"></circle>
+                                    {hasStarted && (
+                                    <circle
+                                        className="stroke-current text-primary transition-all duration-1000 ease-linear"
+                                        strokeWidth="4"
+                                        strokeDasharray={2 * Math.PI * 45}
+                                        strokeDashoffset={2 * Math.PI * 45 * (1 - timeLeft / (meditation.duration * 60))}
+                                        strokeLinecap="round"
+                                        cx="50"
+                                        cy="50"
+                                        r="45"
+                                        fill="transparent"
+                                        transform="rotate(-90 50 50)"
+                                    ></circle>
+                                    )}
+                                </svg>
+                                <span className="text-4xl font-bold font-mono">{formatTime(timeLeft)}</span>
+                            </div>
+
+                            <div className="relative w-36 h-36 flex items-center justify-center overflow-hidden">
+                                <div className="absolute w-full h-full animate-aurora-glow-slow" />
+                                <div className="breathing-orb" style={{ animationPlayState: hasStarted && isPlaying ? 'running' : 'paused' }}/>
+                                <div className="breathing-particles" />
+                            </div>
                         </div>
                 
                         <div className="flex justify-center items-center gap-4">
@@ -234,12 +242,6 @@ export default function MeditationPlayerPage() {
 
             {!isFinished && (
             <div className="w-full max-w-md mt-8 space-y-6">
-                <div className="relative h-48 flex items-center justify-center overflow-hidden">
-                    <div className="absolute w-full h-full animate-aurora-glow-slow" />
-                    <div className="breathing-orb" style={{ animationPlayState: hasStarted && isPlaying ? 'running' : 'paused' }}/>
-                    <div className="breathing-particles" />
-                </div>
-
                 <Card className="bg-card/30 backdrop-blur-xl border-white/10">
                     <CardContent className="p-3">
                         <div className="flex justify-center items-center gap-2">
