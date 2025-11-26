@@ -5,7 +5,7 @@ import BackgroundAurora from '@/components/layout/background-aurora';
 import { ThemeProvider } from '@/components/theme-provider';
 
 export const metadata: Metadata = {
-  title: 'Aurael',
+  title: 'Ceevi',
   description: 'Your personal AI companion for mental well-being.',
 };
 
@@ -29,7 +29,7 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased">
-        <ThemeProvider>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <BackgroundAurora />
           <div className="relative z-10">{children}</div>
           <Toaster />

@@ -8,7 +8,7 @@ import DashboardCard from '@/components/dashboard/dashboard-card';
 import { BotMessageSquare, BookHeart, ClipboardCheck, Wind, ListMusic } from 'lucide-react';
 
 const dashboardItems = [
-  { href: '/chat', icon: BotMessageSquare, label: 'Chat', description: "Talk with Aurael, your AI companion." },
+  { href: '/chat', icon: BotMessageSquare, label: 'Chat', description: "Talk with Ceevi, your AI companion." },
   { href: '/journal', icon: BookHeart, label: 'Journal', description: "Reflect on your thoughts and feelings." },
   { href: '/habits', icon: ClipboardCheck, label: 'Habits', description: "Track and build positive routines." },
   { href: '/breathing', icon: Wind, label: 'Breathing', description: "Find calm with guided exercises." },
@@ -21,7 +21,7 @@ export default function ChatPage() {
   const router = useRouter();
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('aurael-user');
+    const storedUser = localStorage.getItem('ceevi-user');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     } else {

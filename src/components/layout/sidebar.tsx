@@ -32,7 +32,7 @@ export default function AppSidebar() {
   const router = useRouter();
 
   const handleLogout = () => {
-    localStorage.removeItem('aurael-user');
+    localStorage.removeItem('ceevi-user');
     router.push('/login');
   };
 
@@ -41,7 +41,7 @@ export default function AppSidebar() {
         <SidebarHeader className="p-4">
             <Link href="/" className="flex items-center gap-2 group-data-[collapsible=icon]:justify-center">
                 <Sparkles className="w-8 h-8 text-primary group-data-[collapsible=icon]:w-6 group-data-[collapsible=icon]:h-6 transition-all" />
-                <h1 className="text-4xl font-headline font-bold text-primary-foreground group-data-[collapsible=icon]:hidden">Aurael</h1>
+                <h1 className="text-4xl font-headline font-bold text-primary-foreground group-data-[collapsible=icon]:hidden">Ceevi</h1>
             </Link>
         </SidebarHeader>
         <SidebarContent className="p-2">
@@ -75,7 +75,7 @@ export default function AppSidebar() {
                 </Button>
             </div>
             <Separator className="my-2 bg-white/10" />
-            <p className="text-xs text-muted-foreground mt-4 group-data-[collapsible=icon]:hidden">© 2024 Aurael</p>
+            <p className="text-xs text-muted-foreground mt-4 group-data-[collapsible=icon]:hidden">© 2024 Ceevi</p>
         </SidebarFooter>
     </Sidebar>
   );

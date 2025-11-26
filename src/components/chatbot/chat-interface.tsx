@@ -92,7 +92,7 @@ export default function ChatInterface({ user }: ChatInterfaceProps) {
       <CardHeader className="border-b border-white/10 p-4">
         <h2 className="text-lg font-headline font-semibold flex items-center gap-2">
           <Sparkles className="w-5 h-5 text-primary" />
-          Aurael AI
+          Ceevi AI
         </h2>
       </CardHeader>
       <CardContent className="flex-grow p-0 overflow-hidden">

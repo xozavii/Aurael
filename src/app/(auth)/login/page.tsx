@@ -14,7 +14,7 @@ const FloatingHearts = () => {
             className="floating-heart"
             style={{
               left: `${Math.random() * 100}vw`,
-              animationDuration: `${Math.random() * 10 + 15}s`, // 15s to 25s
+              animationDuration: `${Math.random() * 10 + 25}s`, // 25s to 35s
               animationDelay: `${Math.random() * 10}s`,
               fontSize: `${Math.random() * 1.5 + 0.5}rem`, // 0.5rem to 2rem
             }}
@@ -35,7 +35,7 @@ export default function LoginPage() {
        <FloatingHearts />
       <Card className="w-full max-w-md bg-card/60 backdrop-blur-lg border-white/20 z-10">
         <CardHeader className="text-center">
-          <CardTitle className="font-headline text-6xl text-primary">Aurael</CardTitle>
+          <CardTitle className="font-headline text-6xl text-primary">Ceevi</CardTitle>
           <CardDescription className="text-foreground/80 mt-2">
             the wave of aura ✨
           </CardDescription>

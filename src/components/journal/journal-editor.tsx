@@ -28,7 +28,7 @@ export default function JournalEditor() {
 
   useEffect(() => {
     setTimeout(() => {
-        const storedEntries = localStorage.getItem('aurael-journal');
+        const storedEntries = localStorage.getItem('ceevi-journal');
         if (storedEntries) {
           setSavedEntries(JSON.parse(storedEntries));
         }
@@ -60,7 +60,7 @@ export default function JournalEditor() {
     };
     const updatedEntries = [newEntry, ...savedEntries];
     setSavedEntries(updatedEntries);
-    localStorage.setItem('aurael-journal', JSON.stringify(updatedEntries));
+    localStorage.setItem('ceevi-journal', JSON.stringify(updatedEntries));
     setEntry('');
     setImageUrl(null);
     setAiResult(null);
@@ -70,7 +70,7 @@ export default function JournalEditor() {
   const handleDelete = (id: string) => {
     const updatedEntries = savedEntries.filter(e => e.id !== id);
     setSavedEntries(updatedEntries);
-    localStorage.setItem('aurael-journal', JSON.stringify(updatedEntries));
+    localStorage.setItem('ceevi-journal', JSON.stringify(updatedEntries));
     toast({ title: 'Entry deleted.', variant: 'destructive' });
   };
 
