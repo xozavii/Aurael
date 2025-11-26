@@ -11,9 +11,8 @@ import { isToday, isSameDay, parseISO } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { HabitSkeleton } from './habit-skeleton';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../ui/alert-dialog';
-import { Confetti } from './confetti';
 import { Calendar } from '../ui/calendar';
-import { DayPicker, DayContentProps } from 'react-day-picker';
+import { DayPicker, DayContent, DayContentProps } from 'react-day-picker';
 
 const initialHabits: Habit[] = [
   { id: '1', name: 'Meditate 5 mins', icon: Zap, frequency: 'daily', streak: 5, lastCompleted: '2024-05-20T10:00:00.000Z', history: ['2024-05-20T10:00:00.000Z', '2024-05-19T10:00:00.000Z', '2024-05-18T10:00:00.000Z', '2024-05-17T10:00:00.000Z', '2024-05-16T10:00:00.000Z'] },
@@ -21,15 +20,11 @@ const initialHabits: Habit[] = [
   { id: '3', name: 'Morning Coffee', icon: Coffee, frequency: 'daily', streak: 2, lastCompleted: null, history: [] },
 ];
 
-const HeartIcon = () => <Heart className="w-3 h-3 fill-primary text-primary" />;
-
-
 export default function HabitTracker() {
   const [habits, setHabits] = useState<Habit[]>(initialHabits);
   const [newHabitName, setNewHabitName] = useState('');
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [confettiTrigger, setConfettiTrigger] = useState<string | null>(null);
 
   const handleAddHabit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -70,8 +65,6 @@ export default function HabitTracker() {
             };
           } else {
             // Complete habit
-            setConfettiTrigger(id);
-            setTimeout(() => setConfettiTrigger(null), 2000);
             const newCompletionDate = new Date().toISOString();
             return {
               ...habit,
@@ -100,8 +93,8 @@ export default function HabitTracker() {
             className="floating-heart"
             style={{
               left: `${Math.random() * 100}%`,
-              animationDuration: `${Math.random() * 2 + 3}s`, // 3s to 5s
-              animationDelay: `${Math.random() * 2}s`,
+              animationDuration: `${Math.random() * 5 + 8}s`, // 8s to 13s
+              animationDelay: `${Math.random() * 5}s`,
               fontSize: `${Math.random() * 0.8 + 0.4}rem`, // 0.4rem to 1.2rem
             }}
           >
@@ -163,7 +156,6 @@ export default function HabitTracker() {
                           </div>
                       </div>
                       <div className="relative flex items-center gap-1">
-                          {confettiTrigger === habit.id && <Confetti />}
                           <Button
                             size="icon"
                             variant={isCompletedToday ? "secondary" : "outline"}
@@ -194,17 +186,17 @@ export default function HabitTracker() {
                                             completed: 'day-completed',
                                         }}
                                         components={{
-                                            Day: ({ date, ...props }: DayContentProps) => {
-                                                const isCompleted = completedDates.some(d => isSameDay(d, date));
+                                            Day: (props: DayContentProps) => {
+                                                const isCompleted = completedDates.some(d => isSameDay(d, props.date));
                                                 if (isCompleted) {
                                                   return (
                                                     <div className="relative w-full h-full flex items-center justify-center">
-                                                      <Heart className="w-4 h-4 text-primary fill-primary" />
-                                                      <span className="absolute text-xs text-primary-foreground">{date.getDate()}</span>
+                                                        <span className="relative z-10">{props.date.getDate()}</span>
+                                                        <Heart className="absolute w-6 h-6 text-primary/30 fill-primary/20" />
                                                     </div>
                                                   );
                                                 }
-                                                return <DayPicker.Day {...props} date={date} />;
+                                                return <DayContent {...props} />;
                                             },
                                         }}
                                         className="bg-card/80 p-4 rounded-md"
