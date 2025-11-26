@@ -89,11 +89,11 @@ export default {
           },
         },
         heartbeat: {
-          '0%': { transform: 'scale(1)', opacity: '1' },
-          '25%': { transform: 'scale(1.25)', opacity: '0.8' },
-          '50%': { transform: 'scale(1)', opacity: '1' },
-          '75%': { transform: 'scale(1.25)', opacity: '0.8' },
-          '100%': { transform: 'scale(1)', opacity: '1' },
+          '0%': { transform: 'scale(1) translate(-50%, -50%)', opacity: '0.7' },
+          '25%': { transform: 'scale(1.25) translate(-50%, -50%)', opacity: '0.5' },
+          '50%': { transform: 'scale(1) translate(-50%, -50%)', opacity: '0.7' },
+          '75%': { transform: 'scale(1.25) translate(-50%, -50%)', opacity: '0.5' },
+          '100%': { transform: 'scale(1) translate(-50%, -50%)', opacity: '0.7' },
         },
       },
       animation: {

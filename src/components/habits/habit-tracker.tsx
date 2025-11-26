@@ -103,7 +103,7 @@ export default function HabitTracker() {
                 <Card key={habit.id} className={cn("bg-background/50 transition-all with-left-shadow group relative overflow-hidden", isCompletedToday && "border-primary/50")}>
                     {isCompletedToday && (
                         <Heart 
-                            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 text-primary opacity-20 animate-heartbeat"
+                            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 text-primary opacity-100 transition-opacity duration-500 blur-lg animate-heartbeat"
                         />
                     )}
                   <CardContent className="p-4 flex items-center justify-between relative z-10">
