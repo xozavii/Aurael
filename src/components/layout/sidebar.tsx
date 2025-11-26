@@ -25,6 +25,7 @@ const navItems = [
   { href: '/journal', icon: BookHeart, label: 'Journal' },
   { href: '/habits', icon: ClipboardCheck, label: 'Habits' },
   { href: '/breathing', icon: LotusIcon, label: 'Breathing' },
+  { href: '/meditation', icon: Sparkles, label: 'Meditation' },
   { href: '/playlists', icon: ListMusic, label: 'Playlists' },
   { href: '/affirmations', icon: Sparkles, label: 'Affirmations' },
   { href: '/profile', icon: User, label: 'Profile' },

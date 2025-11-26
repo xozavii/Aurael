@@ -17,7 +17,7 @@ const dashboardItems = [
 ];
 
 
-export default function DashboardPage() {
+export default function ChatPage() {
   const [user, setUser] = useState<{name: string, email: string, dob: string} | null>(null);
   const router = useRouter();
 
