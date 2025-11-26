@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
+    const remainingSeconds = Math.floor(seconds % 60);
     return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
 };
 
@@ -31,6 +31,14 @@ export default function MeditationPlayerPage() {
     }, [meditation]);
     
     useEffect(() => {
+        // Initialize audio refs
+        if (!audioRef.current) {
+            audioRef.current = new Audio();
+        }
+        if (!instructionAudioRef.current) {
+            instructionAudioRef.current = new Audio();
+        }
+
         const audio = audioRef.current;
         if (audio && meditation) {
             audio.src = meditation.audio;
@@ -48,7 +56,7 @@ export default function MeditationPlayerPage() {
 
 
     useEffect(() => {
-        if (!isPlaying || !hasStarted || timeLeft === 0) {
+        if (!isPlaying || !hasStarted || timeLeft <= 0) {
             return;
         }
         const timer = setInterval(() => {
@@ -103,7 +111,7 @@ export default function MeditationPlayerPage() {
         return <div className="flex items-center justify-center h-full">Meditation not found.</div>;
     }
     
-    const isFinished = timeLeft === 0 && hasStarted;
+    const isFinished = timeLeft <= 0 && hasStarted;
 
     const getPhaseIcon = (phase: string) => {
         switch(phase.toLowerCase()) {
@@ -134,6 +142,7 @@ export default function MeditationPlayerPage() {
             </Button>
             
             <Card className="relative z-10 w-full max-w-md text-center bg-card/30 backdrop-blur-2xl border-white/10 p-8 space-y-6">
+                 <div className="absolute inset-0 animate-aurora-glow-slow -z-10 rounded-lg"/>
                 {isFinished ? (
                     <div className="space-y-4 animate-in fade-in duration-1000">
                          <h1 className="text-3xl font-headline text-primary">Session Complete</h1>
