@@ -44,7 +44,7 @@ export default function AppSidebar() {
     <Sidebar className="border-r border-white/10 bg-card/30 backdrop-blur-xl" collapsible="icon">
         <SidebarHeader className="p-4">
             <Link href="/" className="flex items-center gap-2 group-data-[collapsible=icon]:justify-center">
-                <AuraelWaveIcon className="w-10 h-10 text-primary group-data-[collapsible=icon]:w-6 group-data-[collapsible=icon]:h-6 transition-all" />
+                <AuraelWaveIcon className="w-10 h-10 text-primary group-data-[collapsible=icon]:w-8 group-data-[collapsible=icon]:h-8 transition-all" />
                 <h1 className="text-4xl font-headline font-bold text-primary group-data-[collapsible=icon]:hidden">Aurael</h1>
             </Link>
         </SidebarHeader>
