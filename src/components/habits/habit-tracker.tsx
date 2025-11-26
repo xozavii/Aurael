@@ -11,6 +11,7 @@ import { isToday } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { HabitSkeleton } from './habit-skeleton';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../ui/alert-dialog';
+import { Confetti } from './confetti';
 
 const initialHabits: Habit[] = [
   { id: '1', name: 'Meditate 5 mins', icon: Zap, frequency: 'daily', streak: 5, lastCompleted: '2024-05-20T10:00:00.000Z' },
@@ -23,6 +24,7 @@ export default function HabitTracker() {
   const [newHabitName, setNewHabitName] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [confettiTrigger, setConfettiTrigger] = useState<string | null>(null);
 
   const handleAddHabit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,6 +50,8 @@ export default function HabitTracker() {
     setHabits(
       habits.map((habit) => {
         if (habit.id === id && (habit.lastCompleted ? !isToday(new Date(habit.lastCompleted)) : true)) {
+          setConfettiTrigger(id);
+          setTimeout(() => setConfettiTrigger(null), 3000); // Reset confetti after animation
           return {
             ...habit,
             streak: habit.streak + 1,
@@ -108,13 +112,14 @@ export default function HabitTracker() {
                               </div>
                           </div>
                       </div>
-                      <div className="flex items-center gap-1">
+                      <div className="relative flex items-center gap-1">
+                          {confettiTrigger === habit.id && <Confetti />}
                           <Button
                             size="icon"
                             variant={isCompletedToday ? "secondary" : "outline"}
                             onClick={() => handleCompleteHabit(habit.id)}
                             disabled={isCompletedToday}
-                            className={cn("rounded-full w-12 h-12 shrink-0", isCompletedToday && "bg-primary/80 hover:bg-primary")}
+                            className={cn("rounded-full w-12 h-12 shrink-0 z-10", isCompletedToday && "bg-primary/80 hover:bg-primary")}
                             aria-label={`Complete habit: ${habit.name}`}
                           >
                             <Check className="w-6 h-6" />
