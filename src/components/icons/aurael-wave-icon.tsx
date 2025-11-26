@@ -3,16 +3,22 @@ import React from "react";
 
 export const AuraelWaveIcon = ({ className, ...props }: React.SVGProps<SVGSVGElement>) => (
     <svg
-        viewBox="0 0 100 100"
+        viewBox="0 0 120 120"
         fill="none"
         stroke="currentColor"
-        strokeWidth="4"
+        strokeWidth="5"
         strokeLinecap="round"
+        strokeLinejoin="round"
         className={cn("w-6 h-6", className)}
         {...props}
     >
-      <path d="M10 50 C30 20, 60 20, 70 40 C80 55, 70 65, 60 60" />
-      <path d="M40 60 C50 50, 60 50, 75 55" />
-      <path d="M10 75 C20 70, 30 80, 40 75 C50 70, 60 80, 70 75 C80 70, 90 80, 95 75" />
+      {/* Main curling wave */}
+      <path d="M10 70 C35 25, 85 25, 95 55 C100 70, 90 82, 75 78 C60 74, 60 55, 75 50" />
+      
+      {/* Extra small curl detail */}
+      <path d="M60 78 C70 70, 80 70, 90 75" />
+      
+      {/* Bottom wavy water line */}
+      <path d="M10 95 C20 90, 30 100, 40 95 C50 90, 60 100, 70 95 C80 90, 90 100, 110 95" />
     </svg>
 );
