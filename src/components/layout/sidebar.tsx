@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { BotMessageSquare, BookHeart, ClipboardCheck, Wind, ListMusic, Sparkles, LogOut, LayoutDashboard } from 'lucide-react';
+import { BotMessageSquare, BookHeart, ClipboardCheck, Wind, ListMusic, Sparkles, LogOut, LayoutDashboard, User } from 'lucide-react';
 import {
   Sidebar,
   SidebarHeader,
@@ -25,6 +25,7 @@ const navItems = [
   { href: '/habits', icon: ClipboardCheck, label: 'Habits' },
   { href: '/breathing', icon: Wind, label: 'Breathing' },
   { href: '/playlists', icon: ListMusic, label: 'Playlists' },
+  { href: '/profile', icon: User, label: 'Profile' },
 ];
 
 export default function AppSidebar() {

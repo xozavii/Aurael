@@ -5,7 +5,7 @@ import AffirmationCard from '@/components/chatbot/affirmation-card';
 import ChatInterface from '@/components/chatbot/chat-interface';
 import { useRouter } from 'next/navigation';
 import DashboardCard from '@/components/dashboard/dashboard-card';
-import { BotMessageSquare, BookHeart, ClipboardCheck, Wind, ListMusic } from 'lucide-react';
+import { BotMessageSquare, BookHeart, ClipboardCheck, Wind, ListMusic, User } from 'lucide-react';
 
 const dashboardItems = [
   { href: '/chat', icon: BotMessageSquare, label: 'Chat', description: "Talk with Ceevi, your AI companion." },
@@ -13,6 +13,7 @@ const dashboardItems = [
   { href: '/habits', icon: ClipboardCheck, label: 'Habits', description: "Track and build positive routines." },
   { href: '/breathing', icon: Wind, label: 'Breathing', description: "Find calm with guided exercises." },
   { href: '/playlists', icon: ListMusic, label: 'Playlists', description: "Listen to music for your mood." },
+  { href: '/profile', icon: User, label: 'Profile', description: "Manage your account and settings." },
 ];
 
 
@@ -42,14 +43,13 @@ export default function ChatPage() {
         </div>
       <div className="w-full max-w-4xl">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {dashboardItems.map((item, index) => (
+          {dashboardItems.map((item) => (
             <DashboardCard
               key={item.href}
               href={item.href}
               icon={item.icon}
               label={item.label}
               description={item.description}
-              className={index === 0 ? 'md:col-start-1' : index === 1 ? 'md:col-start-2' : index === 2 ? 'md:col-start-3' : index === 3 ? 'md:col-start-1 md:col-span-1' : 'md:col-start-2 md:col-span-2'}
             />
           ))}
         </div>
