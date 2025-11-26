@@ -65,6 +65,13 @@
   body {
     @apply bg-background text-foreground;
   }
+  .day-completed {
+    background-color: hsl(var(--primary) / 0.1);
+    color: hsl(var(--primary));
+  }
+  .day-completed .rdp-day_button {
+      font-weight: bold;
+  }
 }
 
 .aurora-background {

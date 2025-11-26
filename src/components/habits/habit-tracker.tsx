@@ -5,24 +5,28 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
-import { Flame, Plus, Check, Zap, Coffee, BookOpen, Trash2, Heart } from 'lucide-react';
+import { Flame, Plus, Check, Zap, Coffee, BookOpen, Trash2, Heart, Calendar as CalendarIcon } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { isToday } from 'date-fns';
+import { isToday, isSameDay, parseISO } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { HabitSkeleton } from './habit-skeleton';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../ui/alert-dialog';
 import { Confetti } from './confetti';
+import { Calendar } from '../ui/calendar';
+import { DayPicker } from 'react-day-picker';
 
 const initialHabits: Habit[] = [
-  { id: '1', name: 'Meditate 5 mins', icon: Zap, frequency: 'daily', streak: 5, lastCompleted: '2024-05-20T10:00:00.000Z', history: [] },
+  { id: '1', name: 'Meditate 5 mins', icon: Zap, frequency: 'daily', streak: 5, lastCompleted: '2024-05-20T10:00:00.000Z', history: ['2024-05-20T10:00:00.000Z', '2024-05-19T10:00:00.000Z', '2024-05-18T10:00:00.000Z', '2024-05-17T10:00:00.000Z', '2024-05-16T10:00:00.000Z'] },
   { id: '2', name: 'Read 10 pages', icon: BookOpen, frequency: 'daily', streak: 12, lastCompleted: '2024-05-20T10:00:00.000Z', history: [] },
   { id: '3', name: 'Morning Coffee', icon: Coffee, frequency: 'daily', streak: 2, lastCompleted: null, history: [] },
 ];
 
+const HeartIcon = () => <Heart className="w-3 h-3 fill-primary text-primary" />;
+
 export default function HabitTracker() {
   const [habits, setHabits] = useState<Habit[]>(initialHabits);
   const [newHabitName, setNewHabitName] = useState('');
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [confettiTrigger, setConfettiTrigger] = useState<string | null>(null);
 
@@ -42,7 +46,7 @@ export default function HabitTracker() {
     setTimeout(() => {
         setHabits([...habits, newHabit]);
         setNewHabitName('');
-        setIsDialogOpen(false);
+        setIsAddDialogOpen(false);
         setLoading(false);
     }, 1000);
   };
@@ -55,22 +59,24 @@ export default function HabitTracker() {
           
           if (isCompletedToday) {
             // Undo completion
-            const previousCompletion = habit.history.length > 0 ? habit.history[habit.history.length - 1] : null;
+            const newHistory = habit.history.slice(0, -1);
+            const lastCompleted = newHistory.length > 0 ? newHistory[newHistory.length - 1] : null;
             return {
               ...habit,
               streak: habit.streak > 0 ? habit.streak - 1 : 0,
-              lastCompleted: previousCompletion,
-              history: habit.history.slice(0, -1),
+              lastCompleted: lastCompleted,
+              history: newHistory,
             };
           } else {
             // Complete habit
             setConfettiTrigger(id);
             setTimeout(() => setConfettiTrigger(null), 2000);
+            const newCompletionDate = new Date().toISOString();
             return {
               ...habit,
               streak: habit.streak + 1,
-              lastCompleted: new Date().toISOString(),
-              history: [...(habit.history || []), habit.lastCompleted].filter(Boolean),
+              lastCompleted: newCompletionDate,
+              history: [...habit.history, newCompletionDate],
             };
           }
         }
@@ -83,9 +89,16 @@ export default function HabitTracker() {
     setHabits(habits.filter((habit) => habit.id !== id));
   };
 
+  const SmallBeatingHeart = ({ style }: { style: React.CSSProperties }) => (
+    <Heart 
+      className="absolute w-12 h-12 text-primary opacity-70 animate-heartbeat"
+      style={{ ...style, animationDelay: `${Math.random() * 0.5}s` }}
+    />
+  );
+
   return (
     <div className="space-y-4">
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+      <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
         <DialogTrigger asChild>
           <Button>
             <Plus className="mr-2 h-4 w-4" /> Add New Habit
@@ -115,12 +128,16 @@ export default function HabitTracker() {
             habits.map((habit) => {
             const isCompletedToday = habit.lastCompleted ? isToday(new Date(habit.lastCompleted)) : false;
             const Icon = habit.icon;
+            const completedDates = habit.history.map(date => parseISO(date));
+
             return (
                 <Card key={habit.id} className={cn("bg-background/50 transition-all with-left-shadow group relative overflow-hidden")}>
                     {isCompletedToday && (
-                       <Heart 
-                          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 text-primary opacity-70 transition-opacity duration-500 blur-md animate-heartbeat"
-                      />
+                       <>
+                         <SmallBeatingHeart style={{ top: '10%', left: '15%' }} />
+                         <SmallBeatingHeart style={{ top: '50%', left: '50%' }} />
+                         <SmallBeatingHeart style={{ top: '25%', left: '80%' }} />
+                       </>
                     )}
                   <CardContent className="p-4 flex items-center justify-between relative z-10">
                       <div className="flex items-center gap-4">
@@ -144,25 +161,65 @@ export default function HabitTracker() {
                           >
                             <Check className="w-6 h-6" />
                           </Button>
-                          <AlertDialog>
-                              <AlertDialogTrigger asChild>
-                                  <Button size="icon" variant="ghost" className="rounded-full w-8 h-8 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
-                                      <Trash2 className="w-4 h-4 text-destructive"/>
-                                  </Button>
-                              </AlertDialogTrigger>
-                              <AlertDialogContent>
-                                  <AlertDialogHeader>
-                                  <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                                  <AlertDialogDescription>
-                                      This action cannot be undone. This will permanently delete your habit.
-                                  </AlertDialogDescription>
-                                  </AlertDialogHeader>
-                                  <AlertDialogFooter>
-                                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                  <AlertDialogAction onClick={() => handleDeleteHabit(habit.id)}>Delete</AlertDialogAction>
-                                  </AlertDialogFooter>
-                              </AlertDialogContent>
-                          </AlertDialog>
+                          <div className="flex flex-col gap-1">
+                            <Dialog>
+                                <DialogTrigger asChild>
+                                     <Button size="icon" variant="ghost" className="rounded-full w-8 h-8 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <CalendarIcon className="w-4 h-4 text-muted-foreground"/>
+                                    </Button>
+                                </DialogTrigger>
+                                <DialogContent className="max-w-min">
+                                    <DialogHeader>
+                                        <DialogTitle className="font-headline">{habit.name} Streak</DialogTitle>
+                                    </DialogHeader>
+                                    <Calendar
+                                        mode="multiple"
+                                        selected={completedDates}
+                                        modifiers={{
+                                            completed: completedDates,
+                                        }}
+                                        modifiersClassNames={{
+                                            completed: 'day-completed',
+                                        }}
+                                        components={{
+                                            DayContent: (props) => {
+                                                const isCompleted = completedDates.some(date => isSameDay(date, props.date));
+                                                if (isCompleted) {
+                                                    return <div className="relative w-full h-full flex items-center justify-center"><HeartIcon /></div>;
+                                                }
+                                                return <DayPicker.DayContent {...props} />;
+                                            }
+                                        }}
+                                        styles={{
+                                            day: {
+                                                position: 'relative'
+                                            }
+                                        }}
+                                        className="bg-card/80 p-4 rounded-md"
+                                    />
+                                </DialogContent>
+                            </Dialog>
+
+                            <AlertDialog>
+                                <AlertDialogTrigger asChild>
+                                    <Button size="icon" variant="ghost" className="rounded-full w-8 h-8 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <Trash2 className="w-4 h-4 text-destructive"/>
+                                    </Button>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                    <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        This action cannot be undone. This will permanently delete your habit.
+                                    </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                    <AlertDialogAction onClick={() => handleDeleteHabit(habit.id)}>Delete</AlertDialogAction>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
+                          </div>
                       </div>
                   </CardContent>
                 </Card>
