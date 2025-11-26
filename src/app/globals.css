@@ -65,12 +65,10 @@
   body {
     @apply bg-background text-foreground;
   }
-  .day-completed {
+  .day-completed .rdp-day_button:not(.rdp-day_outside) {
     background-color: hsl(var(--primary) / 0.1);
     color: hsl(var(--primary));
-  }
-  .day-completed .rdp-day_button {
-      font-weight: bold;
+    font-weight: bold;
   }
 }
 
