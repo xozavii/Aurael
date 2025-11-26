@@ -1,17 +1,16 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import AffirmationCard from '@/components/chatbot/affirmation-card';
-import ChatInterface from '@/components/chatbot/chat-interface';
 import { useRouter } from 'next/navigation';
 import DashboardCard from '@/components/dashboard/dashboard-card';
-import { BotMessageSquare, BookHeart, ClipboardCheck, Wind, ListMusic, User, Sparkles } from 'lucide-react';
+import { BotMessageSquare, BookHeart, ClipboardCheck, ListMusic, User, Sparkles } from 'lucide-react';
+import { MeditationIcon } from '@/components/icons/meditation-icon';
 
 const dashboardItems = [
   { href: '/chat', icon: BotMessageSquare, label: 'Chat', description: "Talk with Ceevi, your AI companion." },
   { href: '/journal', icon: BookHeart, label: 'Journal', description: "Reflect on your thoughts and feelings." },
   { href: '/habits', icon: ClipboardCheck, label: 'Habits', description: "Track and build positive routines." },
-  { href: '/breathing', icon: Wind, label: 'Breathing', description: "Find calm with guided exercises." },
+  { href: '/breathing', icon: MeditationIcon, label: 'Breathing', description: "Find calm with guided exercises." },
   { href: '/playlists', icon: ListMusic, label: 'Playlists', description: "Listen to music for your mood." },
   { href: '/affirmations', icon: Sparkles, label: 'Affirmations', description: 'Get a dose of daily positivity.' },
 ];

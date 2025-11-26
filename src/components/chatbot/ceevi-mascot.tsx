@@ -5,7 +5,7 @@ import { Heart } from 'lucide-react';
 
 const CeeviMascot = () => {
     return (
-        <div className="relative w-56 h-56 md:w-72 md:h-72">
+        <div className="relative w-56 h-56 md:w-64 md:h-64">
             <style>
                 {`
                 @keyframes float {

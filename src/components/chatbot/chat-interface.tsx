@@ -99,7 +99,7 @@ export default function ChatInterface({ user }: ChatInterfaceProps) {
   };
 
   return (
-    <Card className="h-full flex flex-col bg-card/60 backdrop-blur-lg border-white/20 max-h-[75vh] with-left-shadow">
+    <Card className="h-full flex flex-col bg-card/60 backdrop-blur-lg border-white/20 max-h-[80vh] with-left-shadow">
       <CardHeader className="border-b border-white/10 p-4">
         <h2 className="text-lg font-headline font-semibold flex items-center gap-2">
           <Sparkles className="w-5 h-5 text-primary" />

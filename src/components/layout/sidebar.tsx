@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { BotMessageSquare, BookHeart, ClipboardCheck, Wind, ListMusic, Sparkles, LogOut, LayoutDashboard, User } from 'lucide-react';
+import { BotMessageSquare, BookHeart, ClipboardCheck, ListMusic, Sparkles, LogOut, LayoutDashboard, User } from 'lucide-react';
 import {
   Sidebar,
   SidebarHeader,
@@ -17,13 +17,14 @@ import { Separator } from '../ui/separator';
 import { Button } from '../ui/button';
 import { useRouter } from 'next/navigation';
 import { ThemeToggle } from '../theme-toggle';
+import { MeditationIcon } from '../icons/meditation-icon';
 
 const navItems = [
   { href: '/', icon: LayoutDashboard, label: 'Dashboard' },
   { href: '/chat', icon: BotMessageSquare, label: 'Chat' },
   { href: '/journal', icon: BookHeart, label: 'Journal' },
   { href: '/habits', icon: ClipboardCheck, label: 'Habits' },
-  { href: '/breathing', icon: Wind, label: 'Breathing' },
+  { href: '/breathing', icon: MeditationIcon, label: 'Breathing' },
   { href: '/playlists', icon: ListMusic, label: 'Playlists' },
   { href: '/affirmations', icon: Sparkles, label: 'Affirmations' },
   { href: '/profile', icon: User, label: 'Profile' },
