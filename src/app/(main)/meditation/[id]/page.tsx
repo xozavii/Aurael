@@ -3,8 +3,8 @@ import { useEffect, useState, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { meditations } from '@/lib/meditations';
 import { Button } from '@/components/ui/button';
-import { Play, Pause, RotateCcw, ChevronLeft } from 'lucide-react';
-import { Card } from '@/components/ui/card';
+import { Play, Pause, RotateCcw, ChevronLeft, Brain, Sparkles, Wind } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
@@ -77,8 +77,17 @@ export default function MeditationPlayerPage() {
     
     const isFinished = timeLeft === 0;
 
+    const getPhaseIcon = (phase: string) => {
+        switch(phase.toLowerCase()) {
+            case 'breathing': return <Wind className="w-4 h-4 mr-2" />;
+            case 'visualization': return <Sparkles className="w-4 h-4 mr-2" />;
+            case 'affirmations': return <Brain className="w-4 h-4 mr-2" />;
+            default: return null;
+        }
+    }
+
     return (
-        <div className="relative min-h-screen flex flex-col items-center justify-center p-4 overflow-hidden">
+        <div className="relative min-h-screen flex flex-col items-center justify-center p-4 overflow-x-hidden">
             <div className="aurora-background">
                 <div className="aurora-container">
                     <div className="aurora aurora-1"></div>
@@ -141,6 +150,52 @@ export default function MeditationPlayerPage() {
                     </>
                 )}
             </Card>
+
+            {!isFinished && (
+            <div className="w-full max-w-md mt-8 space-y-6">
+                 <Card className="bg-card/30 backdrop-blur-xl border-white/10 text-center">
+                    <CardContent className="p-4">
+                        <p className="text-muted-foreground italic">{meditation.description}</p>
+                    </CardContent>
+                </Card>
+
+                <Card className="bg-card/30 backdrop-blur-xl border-white/10">
+                    <CardHeader>
+                        <CardTitle className="text-lg font-semibold">How to Do This Meditation</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <ul className="list-disc list-inside space-y-2 text-muted-foreground">
+                            {meditation.instructions.map((step, index) => (
+                                <li key={index}>{step}</li>
+                            ))}
+                        </ul>
+                    </CardContent>
+                </Card>
+                
+                <div className="relative h-48 flex items-center justify-center overflow-hidden">
+                    <div className="absolute w-full h-full animate-aurora-glow-slow" />
+                    <div className="breathing-orb" />
+                    <div className="breathing-particles" />
+                </div>
+
+                <Card className="bg-card/30 backdrop-blur-xl border-white/10">
+                    <CardContent className="p-3">
+                        <div className="flex justify-center items-center gap-2">
+                             {meditation.phases.map((phase, index) => (
+                                <div
+                                key={index}
+                                className="flex items-center px-3 py-1.5 rounded-full bg-primary/20 text-primary text-sm font-medium"
+                                >
+                                    {getPhaseIcon(phase)}
+                                    <span>{phase}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </CardContent>
+                </Card>
+            </div>
+            )}
+
 
             <audio ref={audioRef} />
         </div>

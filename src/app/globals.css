@@ -234,4 +234,80 @@
     animation: heartbeat 1.5s ease-in-out infinite;
 }
 
+/* Breathing Orb Animation */
+@keyframes breathing-orb-animation {
+  0%, 100% {
+    transform: scale(0.8);
+    box-shadow: 0 0 20px 5px hsl(var(--primary) / 0.2), 0 0 40px 10px hsl(var(--primary) / 0.1);
+  }
+  50% {
+    transform: scale(1);
+    box-shadow: 0 0 50px 15px hsl(var(--primary) / 0.3), 0 0 100px 30px hsl(var(--primary) / 0.2);
+  }
+}
+
+.breathing-orb {
+  width: 10rem;
+  height: 10rem;
+  border-radius: 50%;
+  background-image: radial-gradient(
+    circle,
+    hsl(var(--primary) / 0.5),
+    hsl(var(--primary) / 0.3),
+    transparent 70%
+  );
+  animation: breathing-orb-animation 8s ease-in-out infinite;
+}
+
+@keyframes float-particle {
+  0%, 100% { transform: translate(0, 0); opacity: 0; }
+  25% { opacity: 1; }
+  50% { transform: translate(20px, -40px); }
+  75% { opacity: 1; }
+  100% { transform: translate(-20px, -80px); opacity: 0; }
+}
+
+.breathing-particles::before,
+.breathing-particles::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: hsl(var(--accent));
+  filter: blur(3px);
+}
+
+.breathing-particles::before {
+  animation: float-particle 10s infinite ease-in-out;
+  animation-delay: -2s;
+  top: 60%;
+  left: 40%;
+}
+
+.breathing-particles::after {
+  animation: float-particle 12s infinite ease-in-out;
+  top: 50%;
+  right: 40%;
+}
+
+@keyframes aurora-glow {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-aurora-glow-slow {
+  background: linear-gradient(
+    -45deg,
+    hsl(var(--primary) / 0.1),
+    hsl(var(--accent) / 0.2),
+    hsl(350 70% 98% / 0.1)
+  );
+  background-size: 400% 400%;
+  animation: aurora-glow 16s ease-in-out infinite alternate;
+}
     

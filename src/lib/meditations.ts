@@ -6,6 +6,9 @@ export type Meditation = {
     duration: number;
     icon: string;
     audio: string;
+    description: string;
+    instructions: string[];
+    phases: string[];
 };
 
 export const meditations: Meditation[] = data.meditations;

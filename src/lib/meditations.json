@@ -5,42 +5,97 @@
         "title": "Stress Relief",
         "duration": 5,
         "icon": "Wind",
-        "audio": "https://cdn.pixabay.com/audio/2022/03/10/audio_0cb39d5059.mp3"
+        "audio": "https://cdn.pixabay.com/audio/2022/03/10/audio_0cb39d5059.mp3",
+        "description": "A gentle breathing practice to calm your mind, slow your heart rate, and reset your inner peace.",
+        "instructions": [
+          "Sit comfortably",
+          "Relax your shoulders",
+          "Breathe naturally",
+          "Follow the breathing orb",
+          "If thoughts come, let them pass",
+          "Keep your screen brightness low"
+        ],
+        "phases": ["Breathing"]
       },
       {
         "id": "sleep",
         "title": "Sleep Meditation",
         "duration": 3,
         "icon": "Bed",
-        "audio": "https://cdn.pixabay.com/audio/2022/10/14/audio_39e1c3809b.mp3"
+        "audio": "https://cdn.pixabay.com/audio/2022/10/14/audio_39e1c3809b.mp3",
+        "description": "A soothing journey to help you drift off into a peaceful and restorative sleep.",
+        "instructions": [
+          "Lie down in a comfortable position",
+          "Close your eyes gently",
+          "Allow your body to feel heavy",
+          "Listen to the guiding voice",
+          "Welcome the feeling of deep rest"
+        ],
+        "phases": ["Breathing", "Visualization"]
       },
       {
         "id": "confidence",
         "title": "Confidence Boost",
         "duration": 5,
         "icon": "Star",
-        "audio": "https://cdn.pixabay.com/audio/2023/10/24/audio_a7e2b7405c.mp3"
+        "audio": "https://cdn.pixabay.com/audio/2023/10/24/audio_a7e2b7405c.mp3",
+        "description": "Empower yourself with positive affirmations to build self-esteem and inner strength.",
+        "instructions": [
+          "Sit or stand tall",
+          "Place a hand on your heart",
+          "Repeat the affirmations aloud or in your mind",
+          "Feel the truth in the words",
+          "Carry this confidence with you"
+        ],
+        "phases": ["Affirmations"]
       },
       {
         "id": "aura-cleanse",
         "title": "Aura Cleanse",
         "duration": 4,
         "icon": "Sparkles",
-        "audio": "https://cdn.pixabay.com/audio/2022/11/17/audio_8b24f574b6.mp3"
+        "audio": "https://cdn.pixabay.com/audio/2022/11/17/audio_8b24f574b6.mp3",
+        "description": "A visualization practice to cleanse your energy field and restore your inner glow.",
+        "instructions": [
+          "Find a quiet space",
+          "Close your eyes and visualize a light around you",
+          "Imagine it washing away negativity",
+          "Breathe in positivity, breathe out dullness",
+          "Emerge with a vibrant, clear aura"
+        ],
+        "phases": ["Visualization"]
       },
       {
         "id": "self-love",
         "title": "Self-Love Healing",
         "duration": 6,
         "icon": "Heart",
-        "audio": "https://cdn.pixabay.com/audio/2023/09/22/audio_1c7b2c554e.mp3"
+        "audio": "https://cdn.pixabay.com/audio/2023/09/22/audio_1c7b2c554e.mp3",
+        "description": "A compassionate meditation to cultivate kindness and acceptance towards yourself.",
+        "instructions": [
+          "Place both hands on your heart",
+          "Breathe into your heart space",
+          "Offer yourself words of kindness",
+          "Embrace yourself with unconditional love",
+          "Acknowledge your worth"
+        ],
+        "phases": ["Breathing", "Affirmations"]
       },
       {
         "id": "focus-study",
         "title": "Focus & Study Calm",
         "duration": 3,
         "icon": "Brain",
-        "audio": "https://cdn.pixabay.com/audio/2024/02/09/audio_65b38a4675.mp3"
+        "audio": "https://cdn.pixabay.com/audio/2024/02/09/audio_65b38a4675.mp3",
+        "description": "Sharpen your concentration and find a calm state of mind for effective studying or work.",
+        "instructions": [
+          "Sit upright at your desk or workspace",
+          "Minimize external distractions",
+          "Set a clear intention for your work",
+          "Use the audio as a focus anchor",
+          "Take short breaks when needed"
+        ],
+        "phases": ["Breathing"]
       }
     ]
 }
