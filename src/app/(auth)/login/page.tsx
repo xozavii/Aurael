@@ -29,11 +29,11 @@ const FloatingHearts = () => {
 
 const StaticHearts = () => {
     const hearts = [
-        { top: '15%', left: '10%', size: '1.5rem', duration: '3s' },
-        { top: '25%', left: '85%', size: '1rem', duration: '4s' },
-        { top: '75%', left: '12%', size: '1.2rem', duration: '3.5s' },
-        { top: '85%', left: '90%', size: '1.8rem', duration: '5s' },
-        { top: '50%', left: '50%', size: '2.5rem', duration: '2.5s' },
+        { top: '15%', left: '10%', size: '1.5rem', duration: '8s' },
+        { top: '25%', left: '85%', size: '1rem', duration: '12s' },
+        { top: '75%', left: '12%', size: '1.2rem', duration: '9s' },
+        { top: '85%', left: '90%', size: '1.8rem', duration: '11s' },
+        { top: '50%', left: '50%', size: '2.5rem', duration: '7s' },
     ];
   
     return (
@@ -47,6 +47,7 @@ const StaticHearts = () => {
               left: heart.left,
               fontSize: heart.size,
               animationDuration: heart.duration,
+              animationDelay: `${i * 1.5}s`
             }}
           >
             &#x2764;
