@@ -3,15 +3,15 @@ import React from "react";
 
 export const AuraelWaveIcon = ({ className, ...props }: React.SVGProps<SVGSVGElement>) => (
     <svg
-        viewBox="0 0 300 120"
+        viewBox="0 0 500 100"
         fill="none"
         stroke="currentColor"
-        strokeWidth="12"
+        strokeWidth="4"
         strokeLinecap="round"
         strokeLinejoin="round"
         className={cn("w-6 h-6", className)}
         {...props}
     >
-      <path d="M10 70 C40 40, 90 40, 130 65 C150 78, 180 75, 210 60" />
+      <path d="M 0 50 C 100 50, 200 50, 250 50 C 270 50, 280 15, 300 30 C 310 40, 310 60, 320 50 C 350 45, 400 50, 500 50" />
     </svg>
 );
