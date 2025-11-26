@@ -1,5 +1,6 @@
 'use client';
 import LoginForm from '@/components/auth/login-form';
+import { ThemeToggle } from '@/components/theme-toggle';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 const FloatingHearts = () => {
@@ -28,6 +29,9 @@ const FloatingHearts = () => {
 export default function LoginPage() {
   return (
     <div className="relative flex min-h-screen items-center justify-center p-4 overflow-hidden">
+        <div className="absolute top-4 right-4 z-20">
+            <ThemeToggle />
+        </div>
        <FloatingHearts />
       <Card className="w-full max-w-md bg-card/60 backdrop-blur-lg border-white/20 z-10">
         <CardHeader className="text-center">

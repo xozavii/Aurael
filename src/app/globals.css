@@ -31,7 +31,7 @@
     --radius: 0.8rem;
   }
   .dark {
-    --background: 350 30% 10%; /* Dark, soft maroon */
+    --background: 0 0% 2%; /* Pitch Black */
     --foreground: 350 15% 85%; /* Soft beige/off-white */
     --card: 350 25% 14%;
     --card-foreground: 350 15% 85%;
@@ -88,7 +88,7 @@
   filter: blur(120px) saturate(150%);
   opacity: 0.5;
   .dark & {
-    opacity: 0.3;
+    opacity: 0.15;
     filter: blur(120px) saturate(100%);
   }
 }

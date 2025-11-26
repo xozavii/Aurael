@@ -45,7 +45,7 @@ export default function LoginForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-2">
-        <Label htmlFor="name">What should I call you? 🙋‍♀️</Label>
+        <Label htmlFor="name">What should I call you?</Label>
         <Input
           id="name"
           type="text"
