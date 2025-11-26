@@ -55,7 +55,7 @@ export default function HabitTracker() {
           
           if (isCompletedToday) {
             // Undo completion
-            const previousCompletion = habit.history[habit.history.length - 1] || null;
+            const previousCompletion = habit.history.length > 0 ? habit.history[habit.history.length - 1] : null;
             return {
               ...habit,
               streak: habit.streak > 0 ? habit.streak - 1 : 0,
@@ -118,11 +118,9 @@ export default function HabitTracker() {
             return (
                 <Card key={habit.id} className={cn("bg-background/50 transition-all with-left-shadow group relative overflow-hidden")}>
                     {isCompletedToday && (
-                        <>
-                            <Heart className="absolute top-4 right-4 w-6 h-6 text-primary opacity-50 blur-[1px] animate-pulse" />
-                            <Heart className="absolute bottom-10 left-10 w-4 h-4 text-primary opacity-40 blur-[1px] animate-pulse animation-delay-200" />
-                            <Heart className="absolute bottom-4 right-12 w-5 h-5 text-primary opacity-60 blur-[1px] animate-pulse animation-delay-400" />
-                        </>
+                       <Heart 
+                          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 text-primary opacity-70 transition-opacity duration-500 blur-md animate-heartbeat"
+                      />
                     )}
                   <CardContent className="p-4 flex items-center justify-between relative z-10">
                       <div className="flex items-center gap-4">
