@@ -37,4 +37,5 @@ export type User = {
     email: string;
     dob: string;
     avatarUrl?: string;
+    auraPoints?: number;
 }

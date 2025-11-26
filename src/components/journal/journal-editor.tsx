@@ -15,6 +15,16 @@ import { JournalSkeleton } from './journal-skeleton';
 import { AiResultSkeleton } from './ai-result-skeleton';
 import Image from 'next/image';
 
+const addPoints = (points: number) => {
+    const storedUser = localStorage.getItem('aurael-user');
+    if (storedUser) {
+        const user = JSON.parse(storedUser);
+        const currentPoints = user.auraPoints || 0;
+        user.auraPoints = currentPoints + points;
+        localStorage.setItem('aurael-user', JSON.stringify(user));
+    }
+}
+
 export default function JournalEditor() {
   const [entry, setEntry] = useState('');
   const [imageUrl, setImageUrl] = useState<string | null>(null);
@@ -61,10 +71,11 @@ export default function JournalEditor() {
     const updatedEntries = [newEntry, ...savedEntries];
     setSavedEntries(updatedEntries);
     localStorage.setItem('ceevi-journal', JSON.stringify(updatedEntries));
+    addPoints(5);
     setEntry('');
     setImageUrl(null);
     setAiResult(null);
-    toast({ title: 'Journal entry saved! 💖' });
+    toast({ title: 'Journal entry saved! +5 points 💖' });
   };
 
   const handleDelete = (id: string) => {

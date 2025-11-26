@@ -9,13 +9,14 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { Heart, User, Music, AlertTriangle, CheckCircle, Wand2, Loader, X } from 'lucide-react';
+import { Heart, User, Music, AlertTriangle, CheckCircle, Wand2, Loader, X, Star } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { generateAvatar } from '@/lib/actions';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from '@/components/ui/dialog';
+import type { User as UserType } from '@/lib/types';
 
 export default function ProfilePage() {
-  const [user, setUser] = useState<{ name: string; email: string; dob: string; avatarUrl?: string; } | null>(null);
+  const [user, setUser] = useState<UserType | null>(null);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [avatarUrl, setAvatarUrl] = useState<string | undefined>(undefined);
@@ -23,6 +24,7 @@ export default function ProfilePage() {
   const [isGeneratingAvatar, setIsGeneratingAvatar] = useState(false);
   const [isAvatarDialogOpen, setIsAvatarDialogOpen] = useState(false);
   const [isSpotifyConnected, setIsSpotifyConnected] = useState(false);
+  const [auraPoints, setAuraPoints] = useState(0);
   const router = useRouter();
   const { toast } = useToast();
 
@@ -34,6 +36,7 @@ export default function ProfilePage() {
       setName(parsedUser.name);
       setEmail(parsedUser.email);
       setAvatarUrl(parsedUser.avatarUrl);
+      setAuraPoints(parsedUser.auraPoints || 0);
     } else {
       router.push('/login');
     }
@@ -41,7 +44,7 @@ export default function ProfilePage() {
 
   const handleSaveChanges = () => {
     if (user) {
-      const updatedUser = { ...user, name, email, avatarUrl };
+      const updatedUser = { ...user, name, email, avatarUrl, auraPoints };
       localStorage.setItem('aurael-user', JSON.stringify(updatedUser));
       setUser(updatedUser);
       toast({
@@ -129,13 +132,19 @@ export default function ProfilePage() {
                 </Avatar>
                 <Heart className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 text-primary opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-lg group-hover:animate-heartbeat"/>
             </div>
-            <div className='space-y-1'>
+            <div className='space-y-2'>
                 <h2 className='text-3xl font-bold'>{name}</h2>
                 <p className='text-muted-foreground'>{email}</p>
-                 <Button onClick={handleGenerateAvatar}>
-                    <Wand2 className="mr-2 h-4 w-4" />
-                    Generate Avatar
-                </Button>
+                <div className="flex items-center gap-2">
+                    <Button onClick={handleGenerateAvatar}>
+                        <Wand2 className="mr-2 h-4 w-4" />
+                        Generate Avatar
+                    </Button>
+                    <div className="flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1.5 text-primary font-semibold">
+                        <Star className="w-5 h-5 fill-current" />
+                        <span>{auraPoints} Aura Points</span>
+                    </div>
+                </div>
             </div>
           </div>
           

@@ -15,6 +15,16 @@ import { Calendar } from '../ui/calendar';
 import { DayPicker, DayContent, DayContentProps } from 'react-day-picker';
 import { Confetti } from './confetti';
 
+const addPoints = (points: number) => {
+    const storedUser = localStorage.getItem('aurael-user');
+    if (storedUser) {
+        const user = JSON.parse(storedUser);
+        const currentPoints = user.auraPoints || 0;
+        user.auraPoints = currentPoints + points;
+        localStorage.setItem('aurael-user', JSON.stringify(user));
+    }
+}
+
 const initialHabits: Habit[] = [
   { id: '1', name: 'Meditate 5 mins', icon: Zap, frequency: 'daily', streak: 5, lastCompleted: '2024-05-20T10:00:00.000Z', history: ['2024-05-20T10:00:00.000Z', '2024-05-19T10:00:00.000Z', '2024-05-18T10:00:00.000Z', '2024-05-17T10:00:00.000Z', '2024-05-16T10:00:00.000Z'] },
   { id: '2', name: 'Read 10 pages', icon: BookOpen, frequency: 'daily', streak: 12, lastCompleted: '2024-05-20T10:00:00.000Z', history: [] },
@@ -78,6 +88,7 @@ export default function HabitTracker() {
           
           if (isCompletedToday) {
             // Undo completion
+            addPoints(-10);
             const newHistory = habit.history.slice(0, -1);
             const lastCompleted = newHistory.length > 0 ? newHistory[newHistory.length - 1] : null;
             return {
@@ -88,6 +99,7 @@ export default function HabitTracker() {
             };
           } else {
             // Complete habit
+            addPoints(10);
             const newCompletionDate = new Date().toISOString();
             return {
               ...habit,

@@ -22,6 +22,16 @@ interface ChatInterfaceProps {
   };
 }
 
+const addPoints = (points: number) => {
+    const storedUser = localStorage.getItem('aurael-user');
+    if (storedUser) {
+        const user = JSON.parse(storedUser);
+        const currentPoints = user.auraPoints || 0;
+        user.auraPoints = currentPoints + points;
+        localStorage.setItem('aurael-user', JSON.stringify(user));
+    }
+}
+
 export default function ChatInterface({ user }: ChatInterfaceProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
@@ -39,7 +49,7 @@ export default function ChatInterface({ user }: ChatInterfaceProps) {
           {
             id: '1',
             role: 'system',
-            content: `Hey ${user.name}! What's on your mind today? ✨`,
+            content: `Hey ${user.name}! What's on your mind today? ✨ You get 1 point for every message!`,
           },
         ]);
         setInitialLoading(false);
@@ -61,6 +71,7 @@ export default function ChatInterface({ user }: ChatInterfaceProps) {
     setMessages(prev => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
+    addPoints(1);
 
     const response = await getChatResponse([...messages, userMessage], age);
     
@@ -88,7 +99,7 @@ export default function ChatInterface({ user }: ChatInterfaceProps) {
   };
 
   return (
-    <Card className="h-full flex flex-col bg-card/60 backdrop-blur-lg border-white/20 max-h-[65vh] with-left-shadow">
+    <Card className="h-full flex flex-col bg-card/60 backdrop-blur-lg border-white/20 max-h-[75vh] with-left-shadow">
       <CardHeader className="border-b border-white/10 p-4">
         <h2 className="text-lg font-headline font-semibold flex items-center gap-2">
           <Sparkles className="w-5 h-5 text-primary" />
