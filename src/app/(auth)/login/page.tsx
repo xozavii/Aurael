@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { AuraelWaveIcon } from '@/components/icons/aurael-wave-icon';
 
 const FloatingHearts = () => {
-    const hearts = Array.from({ length: 15 });
+    const hearts = Array.from({ length: 20 }); // Increased count for a fuller effect
   
     return (
       <div className="floating-hearts-container">
@@ -15,39 +15,11 @@ const FloatingHearts = () => {
             className="floating-heart"
             style={{
               left: `${Math.random() * 100}vw`,
+              // Start some hearts from different vertical positions
+              bottom: `${Math.random() * 100 - 5}vh`, 
               animationDuration: `${Math.random() * 10 + 25}s`,
-              animationDelay: `${Math.random() * 10}s`,
+              animationDelay: `${Math.random() * 15}s`,
               fontSize: `${Math.random() * 1.5 + 0.5}rem`, 
-            }}
-          >
-            &#x2764;
-          </div>
-        ))}
-      </div>
-    );
-};
-
-const StaticHearts = () => {
-    const hearts = [
-        { top: '15%', left: '10%', size: '1.5rem', duration: '8s' },
-        { top: '25%', left: '85%', size: '1rem', duration: '12s' },
-        { top: '75%', left: '12%', size: '1.2rem', duration: '9s' },
-        { top: '85%', left: '90%', size: '1.8rem', duration: '11s' },
-        { top: '50%', left: '50%', size: '2.5rem', duration: '7s' },
-    ];
-  
-    return (
-      <div className="static-hearts-container">
-        {hearts.map((heart, i) => (
-          <div
-            key={i}
-            className="pulsing-heart"
-            style={{
-              top: heart.top,
-              left: heart.left,
-              fontSize: heart.size,
-              animationDuration: heart.duration,
-              animationDelay: `${i * 1.5}s`
             }}
           >
             &#x2764;
@@ -63,7 +35,6 @@ export default function LoginPage() {
         <div className="absolute top-4 right-4 z-20">
             <ThemeToggle />
         </div>
-       <StaticHearts />
        <FloatingHearts />
       <Card className="w-full max-w-md bg-card/60 backdrop-blur-lg border-white/20 z-10">
         <CardHeader className="text-center">
