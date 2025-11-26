@@ -6,6 +6,7 @@ import { generateMoodBasedAffirmations } from '@/ai/flows/generate-mood-based-af
 import { adaptChatbotSpeakingStyle } from '@/ai/flows/adapt-chatbot-speaking-style';
 import { summarizeJournalEntry } from '@/ai/flows/summarize-journal-entry';
 import { reframeJournalEntry } from '@/ai/flows/reframe-journal-entry';
+import { generateAvatar as genAvatar } from '@/ai/flows/generate-avatar';
 
 export async function getAffirmation(mood: string, chatHistory: string = '') {
     try {
@@ -61,5 +62,15 @@ export async function getJournalReframe(entry: string) {
     } catch (error) {
         console.error('Error reframing journal entry:', error);
         return { error: 'Could not reframe entry. Please try again later.' };
+    }
+}
+
+export async function generateAvatar() {
+    try {
+        const result = await genAvatar();
+        return { imageUrl: result.imageUrl };
+    } catch (error) {
+        console.error('Error generating avatar:', error);
+        return { error: 'Could not generate avatar. Please try again later.' };
     }
 }

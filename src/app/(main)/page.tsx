@@ -13,7 +13,6 @@ const dashboardItems = [
   { href: '/habits', icon: ClipboardCheck, label: 'Habits', description: "Track and build positive routines." },
   { href: '/breathing', icon: Wind, label: 'Breathing', description: "Find calm with guided exercises." },
   { href: '/playlists', icon: ListMusic, label: 'Playlists', description: "Listen to music for your mood." },
-  { href: '/profile', icon: User, label: 'Profile', description: "Manage your account and settings." },
 ];
 
 

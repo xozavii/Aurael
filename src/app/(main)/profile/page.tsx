@@ -2,19 +2,23 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { Heart, User, Music, AlertTriangle, CheckCircle } from 'lucide-react';
+import { Heart, User, Music, AlertTriangle, CheckCircle, Wand2, Loader } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import { generateAvatar } from '@/lib/actions';
 
 export default function ProfilePage() {
-  const [user, setUser] = useState<{ name: string; email: string; dob: string } | null>(null);
+  const [user, setUser] = useState<{ name: string; email: string; dob: string; avatarUrl?: string; } | null>(null);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [avatarUrl, setAvatarUrl] = useState<string | undefined>(undefined);
+  const [isGeneratingAvatar, setIsGeneratingAvatar] = useState(false);
   const [isSpotifyConnected, setIsSpotifyConnected] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
@@ -26,6 +30,7 @@ export default function ProfilePage() {
       setUser(parsedUser);
       setName(parsedUser.name);
       setEmail(parsedUser.email);
+      setAvatarUrl(parsedUser.avatarUrl);
     } else {
       router.push('/login');
     }
@@ -33,7 +38,7 @@ export default function ProfilePage() {
 
   const handleSaveChanges = () => {
     if (user) {
-      const updatedUser = { ...user, name, email };
+      const updatedUser = { ...user, name, email, avatarUrl };
       localStorage.setItem('aurael-user', JSON.stringify(updatedUser));
       setUser(updatedUser);
       toast({
@@ -42,6 +47,25 @@ export default function ProfilePage() {
         variant: 'default',
       });
     }
+  };
+
+  const handleGenerateAvatar = async () => {
+    setIsGeneratingAvatar(true);
+    const result = await generateAvatar();
+    if (result.imageUrl) {
+        setAvatarUrl(result.imageUrl);
+        toast({
+            title: 'Avatar Generated! 🧸',
+            description: 'Your new cute teddy avatar is ready.',
+        });
+    } else {
+        toast({
+            title: 'Error Generating Avatar',
+            description: result.error || 'Could not generate a new avatar. Please try again.',
+            variant: 'destructive',
+        });
+    }
+    setIsGeneratingAvatar(false);
   };
 
   const handleNetworkError = () => {
@@ -84,6 +108,7 @@ export default function ProfilePage() {
           <div className="flex items-center gap-6">
             <div className="relative group">
                 <Avatar className="w-24 h-24 text-3xl">
+                     <AvatarImage src={avatarUrl} alt="User avatar" />
                     <AvatarFallback className="bg-primary/20 text-primary font-headline">
                         {getInitials(user.name)}
                     </AvatarFallback>
@@ -93,6 +118,14 @@ export default function ProfilePage() {
             <div className='space-y-1'>
                 <h2 className='text-3xl font-bold'>{name}</h2>
                 <p className='text-muted-foreground'>{email}</p>
+                 <Button onClick={handleGenerateAvatar} disabled={isGeneratingAvatar} size="sm">
+                    {isGeneratingAvatar ? (
+                        <Loader className="mr-2 h-4 w-4 animate-spin" />
+                    ) : (
+                        <Wand2 className="mr-2 h-4 w-4" />
+                    )}
+                    Generate Avatar
+                </Button>
             </div>
           </div>
           

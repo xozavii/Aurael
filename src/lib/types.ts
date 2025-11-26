@@ -31,3 +31,10 @@ export type JournalEntry = {
     content: string;
     imageUrl?: string | null; // data URI
 };
+
+export type User = {
+    name: string;
+    email: string;
+    dob: string;
+    avatarUrl?: string;
+}
