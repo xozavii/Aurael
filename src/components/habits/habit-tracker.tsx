@@ -13,7 +13,7 @@ import { HabitSkeleton } from './habit-skeleton';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../ui/alert-dialog';
 import { Confetti } from './confetti';
 import { Calendar } from '../ui/calendar';
-import { DayPicker } from 'react-day-picker';
+import { DayPicker, DayContentProps } from 'react-day-picker';
 
 const initialHabits: Habit[] = [
   { id: '1', name: 'Meditate 5 mins', icon: Zap, frequency: 'daily', streak: 5, lastCompleted: '2024-05-20T10:00:00.000Z', history: ['2024-05-20T10:00:00.000Z', '2024-05-19T10:00:00.000Z', '2024-05-18T10:00:00.000Z', '2024-05-17T10:00:00.000Z', '2024-05-16T10:00:00.000Z'] },
@@ -22,6 +22,7 @@ const initialHabits: Habit[] = [
 ];
 
 const HeartIcon = () => <Heart className="w-3 h-3 fill-primary text-primary" />;
+
 
 export default function HabitTracker() {
   const [habits, setHabits] = useState<Habit[]>(initialHabits);
@@ -88,13 +89,28 @@ export default function HabitTracker() {
   const handleDeleteHabit = (id: string) => {
     setHabits(habits.filter((habit) => habit.id !== id));
   };
-
-  const SmallBeatingHeart = ({ style }: { style: React.CSSProperties }) => (
-    <Heart 
-      className="absolute w-12 h-12 text-primary opacity-70 animate-heartbeat"
-      style={{ ...style, animationDelay: `${Math.random() * 0.5}s` }}
-    />
-  );
+  
+  const FloatingHearts = () => {
+    const hearts = Array.from({ length: 10 });
+    return (
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {hearts.map((_, i) => (
+          <div
+            key={i}
+            className="floating-heart"
+            style={{
+              left: `${Math.random() * 100}%`,
+              animationDuration: `${Math.random() * 2 + 3}s`, // 3s to 5s
+              animationDelay: `${Math.random() * 2}s`,
+              fontSize: `${Math.random() * 0.8 + 0.4}rem`, // 0.4rem to 1.2rem
+            }}
+          >
+            &#x2764;
+          </div>
+        ))}
+      </div>
+    );
+  };
 
   return (
     <div className="space-y-4">
@@ -133,11 +149,7 @@ export default function HabitTracker() {
             return (
                 <Card key={habit.id} className={cn("bg-background/50 transition-all with-left-shadow group relative overflow-hidden")}>
                     {isCompletedToday && (
-                       <>
-                         <SmallBeatingHeart style={{ top: '10%', left: '15%' }} />
-                         <SmallBeatingHeart style={{ top: '50%', left: '50%' }} />
-                         <SmallBeatingHeart style={{ top: '25%', left: '80%' }} />
-                       </>
+                       <FloatingHearts />
                     )}
                   <CardContent className="p-4 flex items-center justify-between relative z-10">
                       <div className="flex items-center gap-4">
@@ -182,18 +194,18 @@ export default function HabitTracker() {
                                             completed: 'day-completed',
                                         }}
                                         components={{
-                                            DayContent: (props) => {
-                                                const isCompleted = completedDates.some(date => isSameDay(date, props.date));
+                                            Day: ({ date, ...props }: DayContentProps) => {
+                                                const isCompleted = completedDates.some(d => isSameDay(d, date));
                                                 if (isCompleted) {
-                                                    return <div className="relative w-full h-full flex items-center justify-center"><HeartIcon /></div>;
+                                                  return (
+                                                    <div className="relative w-full h-full flex items-center justify-center">
+                                                      <Heart className="w-4 h-4 text-primary fill-primary" />
+                                                      <span className="absolute text-xs text-primary-foreground">{date.getDate()}</span>
+                                                    </div>
+                                                  );
                                                 }
-                                                return <DayPicker.DayContent {...props} />;
-                                            }
-                                        }}
-                                        styles={{
-                                            day: {
-                                                position: 'relative'
-                                            }
+                                                return <DayPicker.Day {...props} date={date} />;
+                                            },
                                         }}
                                         className="bg-card/80 p-4 rounded-md"
                                     />
