@@ -1,9 +1,13 @@
+'use client';
+
 import type { Playlist } from '@/lib/types';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Image from 'next/image';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { PlaylistSkeleton } from './playlist-skeleton';
 
 const mockPlaylists: Omit<Playlist, 'imageUrl' | 'imageHint'>[] = [
   { id: 'calm-playlist', title: 'Calm Reflections', description: 'Gentle soundscapes for peace and focus.' },
@@ -14,7 +18,7 @@ const mockPlaylists: Omit<Playlist, 'imageUrl' | 'imageHint'>[] = [
   { id: 'romantic-playlist', title: 'Heartfelt Melodies', description: 'Sweet and romantic background music.' },
 ];
 
-const playlists: Playlist[] = mockPlaylists.map(p => {
+const playlistsData: Playlist[] = mockPlaylists.map(p => {
     const imageData = PlaceHolderImages.find(img => img.id === p.id);
     return {
         ...p,
@@ -24,11 +28,26 @@ const playlists: Playlist[] = mockPlaylists.map(p => {
 })
 
 export default function PlaylistGrid() {
+  const [playlists, setPlaylists] = useState<Playlist[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setPlaylists(playlistsData);
+      setLoading(false);
+    }, 1000);
+  }, []);
+
+  if (loading) {
+    return <PlaylistSkeleton />;
+  }
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {playlists.map((playlist) => (
         <Link href="#" key={playlist.id} className="group block">
-          <Card className="overflow-hidden h-full bg-background/50 transition-all duration-300 group-hover:shadow-2xl group-hover:border-primary/50 group-hover:-translate-y-1">
+          <Card className="overflow-hidden h-full bg-background/50 transition-all duration-300 group-hover:shadow-2xl group-hover:border-primary/50 group-hover:-translate-y-1 with-left-shadow">
             <div className="relative aspect-square">
               <Image
                 src={playlist.imageUrl}

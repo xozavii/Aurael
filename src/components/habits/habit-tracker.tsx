@@ -4,11 +4,12 @@ import type { Habit } from '@/lib/types';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Flame, Plus, Check, Zap, Coffee, BookOpen } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { isToday, format } from 'date-fns';
+import { isToday } from 'date-fns';
 import { cn } from '@/lib/utils';
+import { HabitSkeleton } from './habit-skeleton';
 
 const initialHabits: Habit[] = [
   { id: '1', name: 'Meditate 5 mins', icon: Zap, frequency: 'daily', streak: 5, lastCompleted: '2024-05-20T10:00:00.000Z' },
@@ -20,10 +21,12 @@ export default function HabitTracker() {
   const [habits, setHabits] = useState<Habit[]>(initialHabits);
   const [newHabitName, setNewHabitName] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleAddHabit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newHabitName.trim()) return;
+    setLoading(true);
     const newHabit: Habit = {
       id: Date.now().toString(),
       name: newHabitName,
@@ -32,9 +35,12 @@ export default function HabitTracker() {
       streak: 0,
       lastCompleted: null,
     };
-    setHabits([...habits, newHabit]);
-    setNewHabitName('');
-    setIsDialogOpen(false);
+    setTimeout(() => {
+        setHabits([...habits, newHabit]);
+        setNewHabitName('');
+        setIsDialogOpen(false);
+        setLoading(false);
+    }, 1000);
   };
 
   const handleCompleteHabit = (id: string) => {
@@ -78,36 +84,40 @@ export default function HabitTracker() {
       </Dialog>
       
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {habits.map((habit) => {
-          const isCompletedToday = habit.lastCompleted ? isToday(new Date(habit.lastCompleted)) : false;
-          const Icon = habit.icon;
-          return (
-            <Card key={habit.id} className={cn("bg-background/50 transition-all", isCompletedToday && "bg-primary/20 border-primary/50")}>
-              <CardContent className="p-4 flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                    <Icon className="w-6 h-6 text-primary" />
-                    <div>
-                        <p className="font-semibold">{habit.name}</p>
-                        <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                            <Flame className="w-4 h-4 text-orange-400" />
-                            <span>{habit.streak} day streak</span>
+        {loading ? (
+            <HabitSkeleton count={habits.length + 1}/>
+        ) : (
+            habits.map((habit) => {
+            const isCompletedToday = habit.lastCompleted ? isToday(new Date(habit.lastCompleted)) : false;
+            const Icon = habit.icon;
+            return (
+                <Card key={habit.id} className={cn("bg-background/50 transition-all with-left-shadow", isCompletedToday && "bg-primary/20 border-primary/50")}>
+                <CardContent className="p-4 flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                        <Icon className="w-6 h-6 text-primary" />
+                        <div>
+                            <p className="font-semibold">{habit.name}</p>
+                            <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                                <Flame className="w-4 h-4 text-orange-400" />
+                                <span>{habit.streak} day streak</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <Button
-                  size="icon"
-                  variant={isCompletedToday ? "secondary" : "outline"}
-                  onClick={() => handleCompleteHabit(habit.id)}
-                  disabled={isCompletedToday}
-                  className={cn("rounded-full w-12 h-12 shrink-0", isCompletedToday && "bg-primary/80 hover:bg-primary")}
-                  aria-label={`Complete habit: ${habit.name}`}
-                >
-                  <Check className="w-6 h-6" />
-                </Button>
-              </CardContent>
-            </Card>
-          );
-        })}
+                    <Button
+                    size="icon"
+                    variant={isCompletedToday ? "secondary" : "outline"}
+                    onClick={() => handleCompleteHabit(habit.id)}
+                    disabled={isCompletedToday}
+                    className={cn("rounded-full w-12 h-12 shrink-0", isCompletedToday && "bg-primary/80 hover:bg-primary")}
+                    aria-label={`Complete habit: ${habit.name}`}
+                    >
+                    <Check className="w-6 h-6" />
+                    </Button>
+                </CardContent>
+                </Card>
+            );
+            })
+        )}
       </div>
     </div>
   );

@@ -1,11 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Sparkles, Loader, Wand2 } from 'lucide-react';
+import { Sparkles, Wand2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { getAffirmation } from '@/lib/actions';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const moods = ["Happy", "Sad", "Anxious", "Calm", "Tired", "Energetic", "Stressed"];
 
@@ -27,17 +28,23 @@ export default function AffirmationCard() {
 
   useEffect(() => {
     fetchAffirmation(selectedMood);
-  }, [selectedMood]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleMoodChange = (mood: string) => {
+    setSelectedMood(mood);
+    fetchAffirmation(mood);
+  }
 
   return (
-    <Card className="bg-card/60 backdrop-blur-lg border-white/20">
+    <Card className="bg-card/60 backdrop-blur-lg border-white/20 with-left-shadow">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <CardTitle className="text-lg font-headline font-semibold flex items-center gap-2">
           <Sparkles className="w-5 h-5 text-primary" />
           Your Daily Affirmation
         </CardTitle>
         <div className="flex items-center gap-2">
-            <Select value={selectedMood} onValueChange={setSelectedMood}>
+            <Select value={selectedMood} onValueChange={handleMoodChange}>
                 <SelectTrigger className="w-[120px] text-xs h-8 bg-card/80">
                     <SelectValue placeholder="Your mood" />
                 </SelectTrigger>
@@ -54,9 +61,9 @@ export default function AffirmationCard() {
       </CardHeader>
       <CardContent>
         {loading ? (
-          <div className="flex items-center gap-2 text-muted-foreground">
-            <Loader className="w-4 h-4 animate-spin" />
-            <span>Generating your personal affirmation...</span>
+           <div className="flex items-center space-x-2 py-4">
+            <Skeleton className="h-4 w-4 rounded-full" />
+            <Skeleton className="h-4 w-[250px]" />
           </div>
         ) : (
           <p className="text-xl font-medium text-center py-4 text-foreground/80 italic">

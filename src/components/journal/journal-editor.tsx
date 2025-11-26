@@ -11,19 +11,25 @@ import { Separator } from '../ui/separator';
 import type { JournalEntry } from '@/lib/types';
 import { format } from 'date-fns';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../ui/collapsible';
+import { JournalSkeleton } from './journal-skeleton';
+import { AiResultSkeleton } from './ai-result-skeleton';
 
 export default function JournalEditor() {
   const [entry, setEntry] = useState('');
   const [isLoading, setIsLoading] = useState<'summary' | 'reframe' | null>(null);
   const [aiResult, setAiResult] = useState<{title: string, content: string} | null>(null);
   const [savedEntries, setSavedEntries] = useState<JournalEntry[]>([]);
+  const [entriesLoading, setEntriesLoading] = useState(true);
   const { toast } = useToast();
 
   useEffect(() => {
-    const storedEntries = localStorage.getItem('aurael-journal');
-    if (storedEntries) {
-      setSavedEntries(JSON.parse(storedEntries));
-    }
+    setTimeout(() => {
+        const storedEntries = localStorage.getItem('aurael-journal');
+        if (storedEntries) {
+          setSavedEntries(JSON.parse(storedEntries));
+        }
+        setEntriesLoading(false);
+    }, 1500)
   }, []);
 
   const handleSave = () => {
@@ -114,10 +120,11 @@ export default function JournalEditor() {
         </Button>
       </div>
       
-      {aiResult && (
+      {isLoading && <AiResultSkeleton />}
+      {aiResult && !isLoading && (
         <>
             <Separator className="my-6 bg-white/20"/>
-            <Card className="bg-primary/5 border-primary/20">
+            <Card className="bg-primary/5 border-primary/20 with-left-shadow">
                 <CardHeader>
                     <CardTitle className="font-headline text-xl text-primary-foreground">{aiResult.title}</CardTitle>
                 </CardHeader>
@@ -128,14 +135,17 @@ export default function JournalEditor() {
         </>
       )}
 
-      {savedEntries.length > 0 && (
+      {(savedEntries.length > 0 || entriesLoading) && (
         <>
             <Separator className="my-6 bg-white/20"/>
             <div className="space-y-4">
                 <h3 className="text-2xl font-headline text-primary-foreground">Your Saved Entries</h3>
-                {savedEntries.map((savedEntry) => (
+                {entriesLoading ? (
+                    <JournalSkeleton />
+                ) : (
+                    savedEntries.map((savedEntry) => (
                     <Collapsible key={savedEntry.id} className="group">
-                        <Card className='bg-background/50'>
+                        <Card className='bg-background/50 with-left-shadow'>
                             <CardHeader className='flex-row items-center justify-between p-4'>
                                 <div>
                                     <CardTitle className='text-lg'>{format(new Date(savedEntry.date), "MMMM d, yyyy 'at' h:mm a")}</CardTitle>
@@ -159,7 +169,7 @@ export default function JournalEditor() {
                             </CollapsibleContent>
                         </Card>
                     </Collapsible>
-                ))}
+                )))}
             </div>
         </>
       )}
